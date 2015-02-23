@@ -1,4 +1,4 @@
-Taarifa Waterpoints
+Taarifa Traders
 ===================
 
 .. contents:: Table of Contents
@@ -32,14 +32,11 @@ is broken).
 For information on how to get inovoled, scroll to the Contributing section
 at the bottom of the page.
 
-Waterpoints
+Traders
 ===========
 
-This repository contains an example application around Waterpoint
-Management built on top of the core API.  It contains scripts to import
-Waterpoint data (resources) which then become available through the API
-to file requests against (e.g., waterpoint 2345 is broken and needs
-fixing).
+This repository contains an example application around Cross-Border Traders 
+built on top of the core API. 
 
 There is also an angularjs_ web application that illustrates how a user
 can interact with the API and data through a browser.
@@ -122,15 +119,15 @@ If you already created the virtualenv for the `Taarifa API`_, activate it: ::
 
 Clone the repository ::
 
-  git clone https://github.com/taarifa/TaarifaWaterpoints
+  git clone https://github.com/taarifa/TaarifaTraders
 
 Change into directory and install the requirements ::
   
-  cd TaarifaWaterpoints
+  cd TaarifaTraders
   pip install -r requirements/dev.txt
 
 Ensure you have node.js and npm installed. Then, from the
-``TaarifaWaterpoints`` directory, install the npm dependencies: ::
+``TaarifaTraders`` directory, install the npm dependencies: ::
 
   npm install
 
@@ -161,8 +158,8 @@ local folders are mounted in the VM such that you can edit files either on the
 host or in the VM. ::
 
   git clone https://github.com/taarifa/TaarifaAPI
-  git clone https://github.com/taarifa/TaarifaWaterpoints
-  cd TaarifaWaterpoints
+  git clone https://github.com/taarifa/TaarifaTraders
+  cd TaarifaTraders
 
 Start the VM. This may take quite a while the very first time as the VM image
 needs to be downloaded (~360MB) and the VM provisioned with all dependencies.
@@ -175,15 +172,15 @@ provisioning scripts again until successful: ::
 
   vagrant provision
 
-Connect to the virtual machine and change into the `TaarifaWaterpoints`
+Connect to the virtual machine and change into the `TaarifaTraders`
 folder: ::
 
   vagrant ssh
-  cd TaarifaWaterpoints
+  cd TaarifaTraders
 
 You can then continue with the usage section below. The ports are automatically
 forwarded so you can access the API and frontend from your host browser. Note
-that both the `TaarifaAPI` and the `TaarifaWaterpoints` folders in the VM are
+that both the `TaarifaAPI` and the `TaarifaTraders` folders in the VM are
 mounted from the host i.e. changes made on the host are immediately reflected in
 the VM and vice versa. This allows you to work on the code either on the host or
 in the VM according to your preference.
@@ -198,17 +195,13 @@ Make sure the virtualenv is active: ::
 
   workon TaarifaAPI
 
-From the TaarifaWaterpoints directory run the following commands to
-create the waterpoint schemas: ::
+From the TaarifaTraders directory run the following commands to
+create the trader schemas: ::
 
   python manage.py create_facility
   python manage.py create_service
-  
-Then upload the `waterpoint data`_: ::
 
-  python manage.py upload_waterpoints <path/to/waterpoints/file.csv>
-
-Start the application from the TaarifaWaterpoints directory by running: ::
+Start the application from the TaarifaTraders directory by running: ::
 
   python manage.py runserver -r -d
 
@@ -223,9 +216,9 @@ automatically when files are changed.
 To verify things are working, open a browser (on the host when using the VM)
 and navigate to: ::
 
-  http://localhost:5000/api/waterpoints
+  http://localhost:5000/api/traders
 
-This should show a list of all the waterpoint resources currently in the
+This should show a list of all the trader resources currently in the
 database.
 
 To work on the frontend web application start the `grunt` server (with the API
@@ -267,7 +260,7 @@ Deployment to Heroku
 ====================
 
 To deploy to Heroku_, make sure the `Heroku tool belt`_ is installed. From the
-TaarifaWaterpoints root folder, create a new app: ::
+TaarifaTraders root folder, create a new app: ::
 
   heroku app:create <name>
 
@@ -295,27 +288,6 @@ configuration to a `.env` file you can use with `foreman`: ::
 Make sure the virtualenv is active: ::
 
   workon TaarifaAPI
-
-Create the waterpoint schemas and upload the `waterpoint data`_, which may take
-several hours: ::
-
-  foreman run python manage.py create_facility
-  foreman run python manage.py create_service
-  foreman run python manage.py upload_waterpoints <path/to/waterpoints/file.csv>
-
-Alternatively, you can import a dump of your local database and import it. If
-`mongod` is not running, create a dump directly from the database files in a
-`dump` folder in your current directory: ::
-
-  sudo -u mongodb mongodump --journal --db TaarifaAPI --dbpath /var/lib/mongodb
-
-This assumes you have followed the `MongoDB installation instructions`_ on
-Ubuntu. Otherwise you might not need to run the command as the `mongodb` user
-and your database directory might be `/data/db`.
-
-Import the dump into your MongoLab database, running the following command: ::
-
-  mongorestore -h <host> -d <database> -u <user> -p <password> /path/to/dump/TaarifaAPI/
 
 Extract host, database, user and password from the `MONGOLAB_URI` Heroku
 configuration variable: ::
@@ -368,7 +340,7 @@ guidelines`_ for further details.
 .. _Vagrant: http://vagrantup.com
 .. _Vagrantfile: Vagrantfile
 .. _VirtualBox: https://www.virtualbox.org
-.. _waterpoint data: https://drive.google.com/file/d/0B5dKo9igl8W4MDEwQ3NjbkJIN28/edit
+.. _trader data: https://drive.google.com/file/d/0B5dKo9igl8W4MDEwQ3NjbkJIN28/edit
 .. _Heroku: https://toolbelt.heroku.com
 .. _Heroku tool belt: https://toolbelt.heroku.com
 .. _heroku-buildpack-multi: https://github.com/ddollar/heroku-buildpack-multi
