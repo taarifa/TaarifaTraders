@@ -1,0 +1,56 @@
+*.py[cod]
+
+# C extensions
+*.so
+*.out
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+*.pot
+app/scripts/translations.js
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Angular
+node_modules
+dist
+.tmp
+.sass-cache
+app/bower_components
+
+# Vagrant
+.vagrant
+
+# Temporary, backup & MacOS dir
+*~
+*.lock
+*.DS_Store
+*.swp
+*.swo
+.ropeproject

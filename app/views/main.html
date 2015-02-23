@@ -1,0 +1,44 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title" translate>Filter map view</h3> <div class="form-group">
+        <button class="btn btn-warning" ng-click="reset()" translate>Reset</button>
+      </div> </div>
+  <div class="panel-body">
+    <form class="form-inline" role="form">
+      <div class="form-group">
+        <label for="region" translate>Region</label>
+        <select class="form-control" id="region" ng-model="where.region_name" ng-change="clearDistrict();updateMap()"
+          ng-options="r for r in regions">
+          <option value="">all</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="district" translate>District</label>
+        <select class="form-control" id="district" ng-model="where.district_name" ng-change="updateMap()"
+          ng-options="l for l in districts">
+          <option value="">all</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="waterpointStatus" translate>Status</label>
+        <select class="form-control" id="waterpointStatus" ng-model="where.status_group" ng-change="updateMap()"
+          ng-options="k for k in ['functional', 'not functional', 'needs repair']">
+          <option value="">all</option>
+        </select>
+      </div>
+      <div style="margin-left:15px" class="checkbox">
+        <label for="reportsOnly">
+          <input type="checkbox" id="reportsOnly" ng-model="where.reports_only" ng-true-value="1" ng-false-value="0" ng-change="updateMap(true)">
+          {{"WPs with reports" | translate}}
+        </label>
+      </div>
+      <div style="margin-left:20px" class="form-group">
+        <label for="maxResults" translate>Max no.</label>
+        <select class="form-control" id="maxResults" ng-model="where.max_results" ng-change="updateMap()"
+          ng-options="k for k in [25, 50, 100, 200, 500, 1000]">
+        </select>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="wpMap" style="height: 480px; width: 100%"></div>

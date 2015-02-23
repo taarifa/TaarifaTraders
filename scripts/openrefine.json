@@ -1,0 +1,517 @@
+i[
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column GID using expression value.toNumber()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "GID",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column OBJECTID using expression value.toNumber()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "OBJECTID",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column VALID_FROM using expression value.toDate()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "VALID_FROM",
+    "expression": "value.toDate()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column VALID_TO using expression value.toDate()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "VALID_TO",
+    "expression": "value.toDate()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column AMOUNT_TSH using expression value.toNumber()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "AMOUNT_TSH",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column BREAKDOWN using expression value.toNumber()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "BREAKDOWN",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column DATE_OF_RECORDING using expression value.toDate()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "DATE_OF_RECORDING",
+    "expression": "value.toDate()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column GPS_HEIGHT using expression value.toNumber()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "GPS_HEIGHT",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column X_ARC1960 using expression value.toNumber()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "X_ARC1960",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column Y_ARC1960 using expression value.toNumber()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Y_ARC1960",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column NUMBER PRIVATE CONNECTIONS using expression value.toNumber()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "NUMBER PRIVATE CONNECTIONS",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column POPULATION SERVED using expression value.toNumber()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "POPULATION SERVED",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/text-transform",
+    "description": "Text transform on cells in column YEAR OF CONSTRUCTION using expression value.toNumber()",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "YEAR OF CONSTRUCTION",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column File",
+    "columnName": "File"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column GID to gid",
+    "oldColumnName": "GID",
+    "newColumnName": "gid"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column OBJECTID to objectid",
+    "oldColumnName": "OBJECTID",
+    "newColumnName": "objectid"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column VALID_FROM to valid_from",
+    "oldColumnName": "VALID_FROM",
+    "newColumnName": "valid_from"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column VALID_TO to valid_to",
+    "oldColumnName": "VALID_TO",
+    "newColumnName": "valid_to"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column AMOUNT_TSH to amount_tsh",
+    "oldColumnName": "AMOUNT_TSH",
+    "newColumnName": "amount_tsh"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column BREAKDOWN to breakdown_year",
+    "oldColumnName": "BREAKDOWN",
+    "newColumnName": "breakdown_year"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column DATE_OF_RECORDING to date_recorded",
+    "oldColumnName": "DATE_OF_RECORDING",
+    "newColumnName": "date_recorded"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column FUNDER to funder",
+    "oldColumnName": "FUNDER",
+    "newColumnName": "funder"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column GPS_HEIGHT to gps_height",
+    "oldColumnName": "GPS_HEIGHT",
+    "newColumnName": "gps_height"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column INSTALLER to installer",
+    "oldColumnName": "INSTALLER",
+    "newColumnName": "installer"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column X_ARC1960 to x_arc1960",
+    "oldColumnName": "X_ARC1960",
+    "newColumnName": "x_arc1960"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column Y_ARC1960 to y_arc1960",
+    "oldColumnName": "Y_ARC1960",
+    "newColumnName": "y_arc1960"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column WPTNAME to wptname",
+    "oldColumnName": "WPTNAME",
+    "newColumnName": "wptname"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column NUMBER PRIVATE CONNECTIONS to num_privcon",
+    "oldColumnName": "NUMBER PRIVATE CONNECTIONS",
+    "newColumnName": "num_privcon"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column BASIN to basin",
+    "oldColumnName": "BASIN",
+    "newColumnName": "basin"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column SUBVILLAGE to subvillage",
+    "oldColumnName": "SUBVILLAGE",
+    "newColumnName": "subvillage"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column REGION to region",
+    "oldColumnName": "REGION",
+    "newColumnName": "region"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column LGA to lga",
+    "oldColumnName": "LGA",
+    "newColumnName": "lga"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column WARD to ward",
+    "oldColumnName": "WARD",
+    "newColumnName": "ward"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column POPULATION SERVED to pop_served",
+    "oldColumnName": "POPULATION SERVED",
+    "newColumnName": "pop_served"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column PUBLIC MEETING to public_meeting",
+    "oldColumnName": "PUBLIC MEETING",
+    "newColumnName": "public_meeting"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column REASON_WPT to reason_wpt",
+    "oldColumnName": "REASON_WPT",
+    "newColumnName": "reason_wpt"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column RECORDING to recorded_by",
+    "oldColumnName": "RECORDING",
+    "newColumnName": "recorded_by"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column SCHEME MANAGEMENT to scheme_man",
+    "oldColumnName": "SCHEME MANAGEMENT",
+    "newColumnName": "scheme_man"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column SCHEMENAME to schemename",
+    "oldColumnName": "SCHEMENAME",
+    "newColumnName": "schemename"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column PERMIT to permit",
+    "oldColumnName": "PERMIT",
+    "newColumnName": "permit"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column WPTCODE to wptcode",
+    "oldColumnName": "WPTCODE",
+    "newColumnName": "wptcode"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column WPTPHOTOID to wptphotoid",
+    "oldColumnName": "WPTPHOTOID",
+    "newColumnName": "wptphotoid"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column YEAR OF CONSTRUCTION to construction_year",
+    "oldColumnName": "YEAR OF CONSTRUCTION",
+    "newColumnName": "construction_year"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column EXTRACTION TYPE to extraction",
+    "oldColumnName": "EXTRACTION TYPE",
+    "newColumnName": "extraction"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column EXTRACTION TYPE GROUP to extraction_group",
+    "oldColumnName": "EXTRACTION TYPE GROUP",
+    "newColumnName": "extraction_group"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column EXTRACTION TYPE CLASS to extraction_class",
+    "oldColumnName": "EXTRACTION TYPE CLASS",
+    "newColumnName": "extraction_class"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column HARDWARE PROBLEMS to hardware_problem",
+    "oldColumnName": "HARDWARE PROBLEMS",
+    "newColumnName": "hardware_problem"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column HARDWARE PROBLEMS GROUP to hardware_problem_group",
+    "oldColumnName": "HARDWARE PROBLEMS GROUP",
+    "newColumnName": "hardware_problem_group"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column MANAGEMENT to management",
+    "oldColumnName": "MANAGEMENT",
+    "newColumnName": "management"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column MANAGEMENT GROUP to management_group",
+    "oldColumnName": "MANAGEMENT GROUP",
+    "newColumnName": "management_group"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column PAYMENT to payment",
+    "oldColumnName": "PAYMENT",
+    "newColumnName": "payment"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column PAYMENT GROUP to payment_group",
+    "oldColumnName": "PAYMENT GROUP",
+    "newColumnName": "payment_group"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column QUALITY to quality",
+    "oldColumnName": "QUALITY",
+    "newColumnName": "quality"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column QUALITY GROUP to quality_group",
+    "oldColumnName": "QUALITY GROUP",
+    "newColumnName": "quality_group"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column QUANTITY to quantity",
+    "oldColumnName": "QUANTITY",
+    "newColumnName": "quantity"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column QUANTITY GROUP to quantity_group",
+    "oldColumnName": "QUANTITY GROUP",
+    "newColumnName": "quantity_group"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column SOURCE to source",
+    "oldColumnName": "SOURCE",
+    "newColumnName": "source"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column SOURCE GROUP to source_group",
+    "oldColumnName": "SOURCE GROUP",
+    "newColumnName": "source_group"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column SOURCE CLASS to source_class",
+    "oldColumnName": "SOURCE CLASS",
+    "newColumnName": "source_class"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column STATUS to status",
+    "oldColumnName": "STATUS",
+    "newColumnName": "status"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column STATUS GROUP to status_group",
+    "oldColumnName": "STATUS GROUP",
+    "newColumnName": "status_group"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column WATERPOINT TYPE to wp_type",
+    "oldColumnName": "WATERPOINT TYPE",
+    "newColumnName": "wp_type"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column WATERPOINT TYPE GROUP to wp_type_group",
+    "oldColumnName": "WATERPOINT TYPE GROUP",
+    "newColumnName": "wp_type_group"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column region",
+    "columnName": "region"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column lga",
+    "columnName": "lga"
+  },
+  {
+    "op": "core/column-removal",
+    "description": "Remove column ward",
+    "columnName": "ward"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column longitude at index 11 based on column x_arc1960 using expression grel:value",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "longitude",
+    "columnInsertIndex": 11,
+    "baseColumnName": "x_arc1960",
+    "expression": "grel:value",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column latitude at index 13 based on column y_arc1960 using expression grel:value",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "latitude",
+    "columnInsertIndex": 13,
+    "baseColumnName": "y_arc1960",
+    "expression": "grel:value",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-move",
+    "description": "Move column longitude to position 12",
+    "columnName": "longitude",
+    "index": 12
+  }
+]

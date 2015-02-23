@@ -1,0 +1,67 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{"Waterpoint" | translate}} {{request.attribute.waterpoint_id}}
+      <small class="pull-right">{{"submitted on" | translate}} {{request._created}}</small></h3>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th translate>Attribute</th>
+        <th translate>Current value</th>
+        <th translate>Reported value</th>
+        <th translate>Accept change</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="(k, v) in request.attribute" ng-if="k!='waterpoint_id'"
+        ng-class="{success: request.attribute[k] == waterpoint[k]}">
+        <td>{{k}}</td>
+        <td>{{waterpoint[k]}}</td>
+        <td>{{request.attribute[k]}}</td>
+        <td>
+          <input type="checkbox" ng-model="apply[k]" ng-disabled="waterpoint[k] == request.attribute[k]">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="panel-body">
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <label for="statusNotes" class="col-sm-3 control-label" translate>Comments</label>
+        <div class="col-sm-9">
+          <input ng-model="request.status_notes" type="text" class="form-control" id="statusNotes" placeholder="{{'Further information or comments about the problem'|translate}}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="agencyResponsible" class="col-sm-3 control-label" translate>Agency responsible</label>
+        <div class="col-sm-9">
+          <input ng-model="request.agency_responsible" type="text" class="form-control" id="agencyResponsible">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="serviceNotice" class="col-sm-3 control-label" translate>Planned actions</label>
+        <div class="col-sm-9">
+          <input ng-model="request.service_notice" type="text" class="form-control" id="serviceNotice" placeholder="{{'Steps that will be taken to fix the problem'|translate}}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="expectedDatetime" class="col-sm-3 control-label" translate>Expected completion date</label>
+        <div class="col-sm-9">
+          <input ng-model="expected_datetime" type="date" class="form-control" id="expectedDatetime">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="status" class="col-sm-3 control-label" translate>Report status</label>
+        <div class="col-sm-9">
+          <select class="form-control" ng-model="request.status" id="status"
+            ng-options="k for k in ['open', 'closed']"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+          <button class="btn btn-success" ng-click="saveRequest()" translate>Update report</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
