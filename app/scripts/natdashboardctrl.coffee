@@ -63,10 +63,10 @@ angular.module('taarifaWaterpointsApp')
     $scope.params =
       group: $scope.groups[0]
 
-    getRegion = () ->
-      $http.get('/api/waterpoints/values/region_name', cache: cacheHttp)
+    getKeywords = () ->
+      $http.get('/api/traders/values/issue_keyword', cache: cacheHttp)
         .success (data, status, headers, config) ->
-          $scope.regions = data.sort()
+          $scope.keywords = data.sort()
 
     getWard = () ->
       modalSpinner.open()

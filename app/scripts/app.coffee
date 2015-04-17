@@ -23,24 +23,18 @@ app = angular
       .when '/waterpoints/edit/:id',
         templateUrl: 'views/edit.html'
         controller: 'WaterpointEditCtrl'
-      .when '/waterpoints/new',
+      .when '/traders/new',
         templateUrl: 'views/edit.html'
-        controller: 'WaterpointCreateCtrl'
-      .when '/requests',
-        templateUrl: 'views/requests.html'
-        controller: 'RequestListCtrl'
-      .when '/requests/new',
-        templateUrl: 'views/edit.html'
-        controller: 'RequestCreateCtrl'
-      .when '/requests/:id',
-        templateUrl: 'views/triage.html'
-        controller: 'RequestTriageCtrl'
+        controller: 'TradersCreateCtrl'
       .when '/dashboard',
         templateUrl: 'views/dashboard.html'
         controller: 'DashboardCtrl'
       .when '/traders',
         templateUrl: 'views/traders.html'
-        $controller: 'TradersCtrl'
+        controller: 'TradersCtrl'
+      .when '/subscribers',
+        templateUrl: 'views/subscribers.html'
+        controller: 'SubscribersCtrl'
       .otherwise
         redirectTo: '/'
     $httpProvider.defaults.headers.patch =

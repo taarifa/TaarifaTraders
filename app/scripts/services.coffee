@@ -173,6 +173,23 @@ angular.module('taarifaWaterpointsApp')
           if status == 200 and res._status == 'ERR'
             for field, message of res._issues
               flash.error = "#{field}: #{message}"
+      Resource.save = (data) ->
+        # We need to remove special attributes starting with _ since they are
+        # not defined in the schema and the data will not validate and the
+        # update be rejected
+        putdata = {}
+        for k, v of data when k[0] != '_'
+          putdata[k] = v
+        $http.post("/api/#{resource}", putdata,
+                  headers: {'If-Match': data._etag})
+        .success (res, status) ->
+          if status == 201 and res._status == 'OK'
+            flash.success = "#{resource} successfully saved!"
+            data._etag = res._etag
+          if status == 201 and res._status == 'ERR'
+            for field, message of res._issues
+              flash.error = "#{field}: #{message}"
+
       Resource.patch = (id, data, etag) ->
         $http
           method: 'PATCH'
@@ -181,6 +198,9 @@ angular.module('taarifaWaterpointsApp')
           headers: {'If-Match': etag}
       return Resource
 
+  .factory 'Traders', (ApiResource) ->
+    ApiResource 'traders'
+    
   .factory 'Waterpoint', (ApiResource) ->
     ApiResource 'waterpoints'
 
@@ -369,6 +389,41 @@ angular.module('taarifaWaterpointsApp')
 
           coords = []
           wps.forEach (x) ->
+            if x.status_group != "functional"
+              coords.push
+                lat: x.location.coordinates[1]
+                lng: x.location.coordinates[0]
+                value: costMap[x.status_group]
+
+          heatmapLayer.setData 
+            data: coords
+
+      @addIssues = (issues) ->
+        issues.forEach (issue) ->
+          [lng,lat] = issue.location.coordinates
+
+          if options.clustering
+            m = new PruneCluster.Marker lat, lng, popup
+            m.category = categoryMap[issue.status_group]
+            markerLayer.RegisterMarker m
+          else
+            m = makeMarker(issue)
+            popup = makePopup(issue)
+            m.bindPopup popup
+            markerLayer.addLayer(m)
+
+        if options.coverage
+          coords = issues.map (x) -> [x.location.coordinates[1], x.location.coordinates[0]]
+          coverageLayer.setData coords
+
+        if options.heatmap
+          costMap =
+            functional: 0
+            "needs repair": 1
+            "not functional": 2
+
+          coords = []
+          issues.forEach (x) ->
             if x.status_group != "functional"
               coords.push
                 lat: x.location.coordinates[1]

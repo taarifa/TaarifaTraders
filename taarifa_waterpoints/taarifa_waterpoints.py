@@ -8,7 +8,7 @@ cache = SimpleCache()
 from taarifa_api import api as app, main
 
 
-def pre_get_waterpoints(request, lookup):
+def pre_get_issues(request, lookup):
     """
     Generate spatial query against waterpoint location from lat, lon,
     minDistance and maxDistance request arguments. The default value
@@ -42,10 +42,10 @@ def pre_get_waterpoints(request, lookup):
             lookup['location']['$near']['$minDistance'] = min_distance
 
 
-def post_waterpoints_get_callback(request, payload):
+def post_issues_get_callback(request, payload):
     """Strip all meta data but id from waterpoint payload if 'strip' is set to
     a non-zero value in the query string."""
-    if request.args.get('strip', 0):
+    if request.args.get('strip', 1):
         try:
             d = json.loads(payload.data)
             d['_items'] = [dict((k, v) for k, v in it.items()
@@ -57,8 +57,8 @@ def post_waterpoints_get_callback(request, payload):
             pass
 
 app.name = 'TaarifaWaterpoints'
-app.on_post_GET_waterpoints += post_waterpoints_get_callback
-app.on_pre_GET_waterpoints += pre_get_waterpoints
+app.on_post_GET_issues += post_issues_get_callback
+app.on_pre_GET_issues += pre_get_issues
 
 # Override the maximum number of results on a single page
 # This is needed by the dashboard
@@ -67,19 +67,19 @@ app.on_pre_GET_waterpoints += pre_get_waterpoints
 app.config['PAGINATION_LIMIT'] = 70000
 
 
-@app.route('/' + app.config['URL_PREFIX'] + '/waterpoints/requests')
-def waterpoint_requests():
-    "Return the unique values for a given field in the waterpoints collection."
-    # FIXME: Direct call to the PyMongo driver, should be abstracted
-    reqs = app.data.driver.db['requests'].find(
-        {'status': 'open'},
-        ['attribute.waterpoint_id'])
-    return send_response('requests', (reqs.distinct('attribute.waterpoint_id'),))
+# @app.route('/' + app.config['URL_PREFIX'] + '/waterpoints/requests')
+# def waterpoint_requests():
+#     "Return the unique values for a given field in the waterpoints collection."
+#     # FIXME: Direct call to the PyMongo driver, should be abstracted
+#     reqs = app.data.driver.db['requests'].find(
+#         {'status': 'open'},
+#         ['attribute.waterpoint_id'])
+#     return send_response('requests', (reqs.distinct('attribute.waterpoint_id'),))
 
 
-@app.route('/' + app.config['URL_PREFIX'] + '/waterpoints/values/<field>')
-def waterpoint_values(field):
-    "Return the unique values for a given field in the waterpoints collection."
+@app.route('/' + app.config['URL_PREFIX'] + '/traders/values/<field>')
+def traders_values(field):
+    "Return the unique values for a given field in the traders collection."
     # FIXME: Direct call to the PyMongo driver, should be abstracted
     resources = app.data.driver.db['resources']
     if request.args:
@@ -87,15 +87,15 @@ def waterpoint_values(field):
     return send_response('resources', (sorted(resources.distinct(field)),))
 
 
-@app.route('/' + app.config['URL_PREFIX'] + '/waterpoints/stats')
-def waterpoint_stats():
-    "Return number of waterpoints grouped by district and status."
-    # FIXME: Direct call to the PyMongo driver, should be abstracted
-    resources = app.data.driver.db['resources']
-    return send_response('resources', (resources.group(
-        ['district', 'status_group'], dict(request.args.items()),
-        initial={'count': 0},
-        reduce="function(curr, result) {result.count++;}"),))
+# @app.route('/' + app.config['URL_PREFIX'] + '/waterpoints/stats')
+# def waterpoint_stats():
+#     "Return number of waterpoints grouped by district and status."
+#     # FIXME: Direct call to the PyMongo driver, should be abstracted
+#     resources = app.data.driver.db['resources']
+#     return send_response('resources', (resources.group(
+#         ['district', 'status_group'], dict(request.args.items()),
+#         initial={'count': 0},
+#         reduce="function(curr, result) {result.count++;}"),))
 
 
 @app.route('/' + app.config['URL_PREFIX'] + '/waterpoints/status')

@@ -1,4 +1,6 @@
-waterpoint_schema = {
+# trader_schema stores issues reported by the traders
+# FIXME: change name to issue_schema
+trader_schema = {
     'gid': {
         'type': 'integer',
         'label': 'GID',
@@ -11,219 +13,43 @@ waterpoint_schema = {
         # FIXME: not really unique...
         # 'unique': True
     },
-    'x_wgs84': {
-        'type': 'number',
-        'label': 'X_WGS84'
+    'issue_phone_number': {
+        'type': 'string',
+        'label': 'Phone Number',
     },
-    'y_wgs84': {
-        'type': 'number',
-        'label': 'Y_WGS84'
+    'issue_code': {
+        'type': 'string',
+        'label': 'Issue Code',
     },
-    'valid_from': {
-        'type': 'datetime',
-        'label': 'Valid From',
+    'issue_keyword': {
+        'type': 'string',
+        'label': 'Keyword',
+        'allowed': ['Customs', 'TRA', 'ZRA', 'MRA', 'Immigration', 'Police', 'Bureau', 'Standards', 'Duty', 'Passport', 'BorderPass', 'Corruption', 'Harassment', 'Bribe'],
     },
-    'valid_to': {
-        'type': 'datetime',
-        'label': 'Valid To',
+    'issue_type': {
+        'type': 'string',
+        'label': 'Issue Type',
+        'allowed': ['Non-Tarriff Barriers (NTB)', 'Tarriff Barriers (TB)'],
     },
-    'amount_tsh': {
-        'type': 'number',
-        'label': 'Amount paid (TSH)',
+    'issue_agency': {
+        'type': 'string',
+        'label': 'Agency',
     },
-    'breakdown_year': {
-        'type': 'integer',
-        'label': 'Breakdown Year',
-    },
-    'date_recorded': {
+    'issue_date': {
         'type': 'datetime',
         'label': 'Date recorded',
-    },
-    'funder': {
-        'type': 'string',
-        'label': 'Funder',
-    },
-    'gps_height': {
-        'type': 'number',
-        'label': 'GPS Height',
-    },
-    'installer': {
-        'type': 'string',
-        'label': 'Installer',
     },
     'location': {
         'type': 'point',
     },
-    'wptname': {
-        'type': 'string',
-        'label': 'Waterpoint Name',
-    },
-    'num_privcon': {
-        'type': 'integer',
-        'label': 'Number of private connections',
-    },
-    'basin': {
-        'type': 'string',
-        'label': 'Basin',
-    },
-    'subvillage': {
-        'type': 'string',
-        'label': 'Subvillage',
-    },
-    'region_name': {
-        'type': 'string',
-        'label': 'Region',
-    },
-    'region_code': {
-        'type': 'integer',
-        'label': 'Region Code',
-    },
-    'district_name': {
-        'type': 'string',
-        'label': 'District Name',
-    },
-    'district_code': {
-        'type': 'integer',
-        'label': 'District Code',
-    },
-    'lga': {
-        'type': 'string',
-        'label': 'LGA',
-    },
-    'ward_name': {
-        'type': 'string',
-        'label': 'Ward',
-    },
-    'ward_code': {
-        'type': 'integer',
-        'label': 'Ward Code',
-    },
-    'pop_served': {
-        'type': 'integer',
-        'label': 'Population',
-    },
-    'public_meeting': {
-        'type': 'boolean',
-        'label': 'Public meetings held',
-    },
-    'reason_wpt': {
-        'type': 'string',
-        'label': 'Reason not functional',
-    },
-    'recorded_by': {
-        'type': 'string',
-        'label': 'Recorded by',
-    },
-    'scheme_man': {
-        'type': 'string',
-        'label': 'Scheme Management',
-    },
-    'schemename': {
-        'type': 'string',
-        'label': 'Scheme Name',
-    },
-    'permit': {
-        'type': 'string',
-        'label': 'Permit',
-    },
-    'wptcode': {
-        'type': 'string',
-        'label': 'Waterpoint Code',
-        # FIXME: waterpoint codes should be unique, but are not in the dataset
-        # 'unique': True,
-    },
-    'wptphotoid': {
-        'type': 'string',
-        'label': 'Photo ID',
-    },
-    'construction_year': {
-        'type': 'integer',
-        'label': 'Construction Year',
-    },
-    'extraction': {
-        'type': 'string',
-        'label': 'Extraction type',
-    },
-    'extraction_group': {
-        'type': 'string',
-        'label': 'Extraction type group',
-    },
-    'extraction_class': {
-        'type': 'string',
-        'label': 'Extraction type class',
-    },
-    'hardware_problem': {
-        'type': 'string',
-        'label': 'Hardware problem',
-    },
-    'hardware_problem_group': {
-        'type': 'string',
-        'label': 'Hardware problem group',
-    },
-    'management': {
-        'type': 'string',
-        'label': 'Management Authority (COWSO)',
-    },
-    'management_group': {
-        'type': 'string',
-        'label': 'Management Group',
-    },
-    'payment': {
-        'type': 'string',
-        'label': 'Form of Payment',
-    },
-    'payment_group': {
-        'type': 'string',
-        'label': 'Type of Payment',
-    },
-    'quality': {
-        'type': 'string',
-        'label': 'Water quality',
-    },
-    'quality_group': {
-        'type': 'string',
-        'label': 'Water quality group',
-    },
-    'quantity': {
-        'type': 'string',
-        'label': 'Quantity',
-    },
-    'quantity_group': {
-        'type': 'string',
-        'label': 'Quantity group',
-    },
-    'source': {
-        'type': 'string',
-        'label': 'Source',
-    },
-    'source_group': {
-        'type': 'string',
-        'label': 'Source Group',
-    },
-    'source_class': {
-        'type': 'string',
-        'label': 'Source Class',
-    },
-    'status': {
+    'issue_status': {
         'type': 'string',
         'label': 'Status detail',
     },
-    'status_group': {
+    'issue_status_group': {
         'type': 'string',
         'label': 'Status group',
-        'allowed': ['functional', 'not functional', 'needs repair'],
-    },
-    'wp_type': {
-        'type': 'string',
-        'label': 'Waterpoint type',
-    },
-    'wp_type_group': {
-        'type': 'string',
-        'label': 'Waterpoint type group',
-    },
-    'division': {
-        'type': 'string',
-        'label': 'Division',
+        'allowed': ['complete', 'pending'],
     },
 }
 
@@ -232,56 +58,54 @@ waterpoint_schema = {
 # have that are part of the facility.
 # FIXME: facility/service code duplicated here and in manage.py, should be in
 # settings.py
-facility_schema = {'facility_code': "wpf001",
-                   'facility_name': "Waterpoint Infrastructure",
+facility_schema = {'facility_code': "trd001",
+                   'facility_name': "Cross-Border Traders",
                    # this defines the schema of a resource within this facility
-                   'fields': waterpoint_schema,
-                   'description': "Waterpoint infrastructure in Tanzania",
-                   'keywords': ["location", "water", "infrastructure"],
-                   'group': "water",
-                   'endpoint': "waterpoints"}
+                   'fields': trader_schema,
+                   'description': "Cross-Border Traders",
+                   'keywords': ["Customs", "TRA", "ZRA", "MRA", "Immigration", "Police", "Bureau", "Standards", "Duty", "Passport", "BorderPass", "Corruption", "Harassment", "Bribe"],
+                   'group': "trader",
+                   'endpoint': "traders"}
 
 # Services and requests go hand in hand too. Here its the attributes field of a
 # service that defines what the schema of a request (report) should look like.
 service_schema = {
-    "service_name": "Communal Water Service",
+    "service_name": "Cross-Border Traders service",
     "attributes": [
         # This defines the schema of a request for this service
         # FIXME: how to refer to fields defined in the base schema in
         # TaarfaAPI?
         {"variable": True,
          # FIXME: we need to enforce a foreign key constraint here
-         "code": "waterpoint_id",
+         "code": "issue_id",
          "datatype": "string",
          "required": True,
-         "datatype_description": "Enter a valid Waterpoint id",
+         "datatype_description": "Enter a valid Issue id",
          "order": 1,
-         "description": "Unique id of this waterpoint",
-         "relation": {"resource": "waterpoints",
-                      "field": "wpt_code"}},
+         "description": "Unique id of this issue",
+         "relation": {"resource": "traders",
+                      "field": "issue_code"}},
         {"variable": True,
          "code": "status_group",
          "datatype": "singlevaluelist",
          "required": True,
          "datatype_description": "Select an option from the list",
          "order": 2,
-         "description": "Status of this waterpoint",
-         "values": [{"key": "functional",
-                     "name": "Functional"},
-                    {"key": "not functional",
-                     "name": "Not functional"},
-                    {"key": "needs repair",
-                     "name": "Functional, but needs repair"}]},
+         "description": "Status of this issue",
+         "values": [{"key": "complete",
+                     "name": "Complete"},
+                    {"key": "pending",
+                     "name": "Pending"}]},
         {"variable": True,
          "code": "status_detail",
          "datatype": "string",
          "required": False,
-         "datatype_description": "Describe the status of the waterpoint",
+         "datatype_description": "Describe the status of the issue",
          "order": 3,
-         "description": "Detailed description of the waterpoint status"}
+         "description": "Detailed description of the issue status"}
     ],
-    "description": "Location and functionality of a waterpoint",
-    "keywords": ["location", "infrastructure", "water"],
-    "group": "water",
-    "service_code": "wps001"
+    "description": "Location and status of a issue",
+    "keywords": ["location", "issue", "traders"],
+    "group": "issue",
+    "service_code": "trd001"
 }

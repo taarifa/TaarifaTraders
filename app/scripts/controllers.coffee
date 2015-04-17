@@ -108,39 +108,6 @@ angular.module('taarifaWaterpointsApp')
     $scope.spinnerDialog = msg
     $scope.spinnerStatus = status
 
-  .controller 'WaterpointCreateCtrl', ($scope, Waterpoint, FacilityForm,
-                                        Map, flash, gettext, geolocation, modalSpinner) ->
-    $scope.formTemplate = FacilityForm 'wpf001'
-    # Default to today
-    d = new Date()
-    today = d.toGMTString()
-
-    # FIXME: Should not hardcode the facility code here
-    $scope.form =
-      facility_code: "wpf001"
-      date_recorded: today
-
-    modalSpinner.open(" ", "Finding your location...")
-    geolocation.getLocation().then (data) ->
-      modalSpinner.close()
-      flash.success = gettext("Geolocation succeeded: got coordinates") + " #{data.coords.longitude.toPrecision(4)}, #{data.coords.latitude.toPrecision(4)}"
-      $scope.form.location = coordinates: [data.coords.longitude, data.coords.latitude]
-      map = Map("editMap", {})
-      map.clearMarkers()
-      map.addWaterpoints([$scope.form])
-      map.zoomToMarkers()
-    , (reason) ->
-      flash.error = gettext("Geolocation failed:") + " #{reason}"
-    $scope.save = () ->
-      Waterpoint.save $scope.form, (waterpoint) ->
-        if waterpoint._status == 'OK'
-          console.log "Successfully created waterpoint", waterpoint
-          flash.success = gettext('Waterpoint successfully created!')
-        if waterpoint._status == 'ERR'
-          console.log gettext("Failed to create waterpoint"), waterpoint
-          for field, message of waterpoint._issues
-            flash.error = "#{field}: #{message}"
-
   .controller 'WaterpointEditCtrl', ($scope, $routeParams,
                                     Map, Waterpoint, FacilityForm) ->
     $scope.wp = Waterpoint
@@ -235,9 +202,62 @@ angular.module('taarifaWaterpointsApp')
           for field, message of data._issues
             flash.error = "#{field}: #{message}"
 
-  .$controller 'TradersCtrl', ($scope) ->
-    $scope.customers = [
-      { name: 'John Smith', city: 'Phoenix' },
-      { name: 'John Doe', city: 'New York' },
-      { name: 'Mary James', city: 'San Francisco' }
-    ];
+  .controller 'TradersCtrl', ($scope, $http) ->
+      $http.get('/api/traders', cache: true).success (data) ->
+          $scope.traders = data._items
+          console.log(data._items)
+
+      # str = "Customs wanatucharge bei kubwa, tunaumia sana."
+      # res = str.split(" ")
+      # $scope.word = res[0]
+      # desc = []
+
+      # for i,val of res
+      #   if i > 0
+      #     desc.push val
+
+      # $scope.desc = desc
+
+  .controller 'TradersCreateCtrl', ($scope, Traders, FacilityForm,
+                                        Map, flash, gettext, geolocation, modalSpinner) ->
+    $scope.formTemplate = FacilityForm 'trd001'
+    # Default to today
+    d = new Date()
+    today = d.toGMTString()
+
+    # FIXME: Should not hardcode the facility code here
+    $scope.form =
+      facility_code: "trd001"
+      issue_date: today
+
+    modalSpinner.open(" ", "Finding your location...")
+    geolocation.getLocation().then (data) ->
+      modalSpinner.close()
+      flash.success = gettext("Geolocation succeeded: got coordinates") + " #{data.coords.longitude.toPrecision(4)}, #{data.coords.latitude.toPrecision(4)}"
+      $scope.form.location = coordinates: [data.coords.longitude, data.coords.latitude], type:'Point'
+      map = Map("editMap", {})
+      map.clearMarkers()
+      map.addIssues([$scope.form])
+      map.zoomToMarkers()
+    , (reason) ->
+      flash.error = gettext("Geolocation failed:") + " #{reason}"
+
+    $scope.save = () ->
+      Traders.save $scope.form, (issue) ->
+        console.log issue
+        if issue._status == 'OK'
+          console.log "Successfully created issue", issue
+          flash.success = gettext('Issue successfully created!')
+        if issue._status == 'ERR'
+          console.log gettext("Failed to create issue"), issue
+          for field, message of issue._issues
+            flash.error = "#{field}: #{message}"
+
+  # .controller 'TradersCreateCtrl', ($scope, $http) ->
+  #   $http.post('traders', {
+  #     text: 'sdlakf;dsjfladksjf;ldsjfa;lsdkjfl;dsa'
+  #     }, {
+  #       params: {
+  #         id: '5'
+  #       }
+  #   });

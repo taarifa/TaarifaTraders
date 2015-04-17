@@ -31,7 +31,7 @@ angular.module('taarifaWaterpointsApp')
       res.item = $scope[res.type + "Map"][res.name.toLowerCase()]
       res
 
-    initMap = (waterpoints, mapCenter) ->
+    initMap = (issues, mapCenter) ->
 
       ######################
       ### EVENT HANDLERS ###
@@ -131,7 +131,7 @@ angular.module('taarifaWaterpointsApp')
       clusterLayer = new PruneClusterForLeaflet()
       clusterLayer.Cluster.Size = 100
 
-      waterpoints.forEach((x) ->
+      issues.forEach((x) ->
         coords = x.location.coordinates
         m = new PruneCluster.Marker(coords[1], coords[0])
         m.category = categoryMap[x.status_group]

@@ -1,48 +1,37 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
-    <h3 class="panel-title">{{"Issues Reported by Traders" | translate}} <!-- {{request.attribute.waterpoint_id}} -->
+    <h3 class="panel-title">{{"Issues Reported" | translate}} <!-- {{request.attribute.waterpoint_id}} -->
       <small class="pull-right">{{"submitted on" | translate}} {{request._created}}</small></h3>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th translate>PHONE #</th>
-        <th translate>DATE</th>
-        <th translate>ISSUE</th>
-        <th translate>ISSUE TYPE</th>
-        <th translate>LOCATION</th>
-        <th translate>AGENCY</th>
-        <th translate>STATUS</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>+255715111222</td>
-        <td>02/02/2015</td>
-        <td>ABUSE</td>
-        <td>TB</td>
-        <td>Tunduma</td>
-        <td>TanTrade</td>
-        <td>Open</td>
-      </tr>
-      <tr>
-        <td>+255715100100</td>
-        <td>05/02/2015</td>
-        <td>CORRUPTION</td>
-        <td>TB</td>
-        <td>Tunduma</td>
-        <td>TanTrade</td>
-        <td>Open</td>
-      </tr>
-      <tr>
-        <td>+255715123456</td>
-        <td>12/02/2015</td>
-        <td>ABUSE</td>
-        <td>TB</td>
-        <td>Tunduma</td>
-        <td>TanTrade</td>
-        <td>Open</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th translate>CODE</th>
+          <th translate>PHONE#</th>
+          <th translate>ISSUE</th>
+          <th translate>TYPE</th>
+          <th translate>LOCATION</th>
+          <th translate>AGENCY</th>
+          <th translate>DATE</th>
+          <!-- <th translate>DESCRIPTION</th> -->
+          <th translate>STATUS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr ng-repeat="trader in traders" ng-if="trader.issue_phone_number != ' '"> -->
+        <tr ng-repeat="trader in traders">
+          <td>{{ trader.issue_code }}</td>
+          <td>{{ trader.issue_phone_number }}</td>
+          <td>{{ trader.issue_keyword }}</td>
+          <td>{{ trader.issue_type }}</td>
+          <td>{{ trader.location.coordinates }}</td>
+          <td>{{ trader.issue_agency }}</td>
+          <td>{{ trader.issue_date }}</td>
+          <!-- <td>{{ trader.issue_status }}</td> -->
+          <td>{{ trader.issue_status_group | translate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
