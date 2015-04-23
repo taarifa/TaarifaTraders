@@ -207,17 +207,6 @@ angular.module('taarifaWaterpointsApp')
           $scope.traders = data._items
           console.log(data._items)
 
-      # str = "Customs wanatucharge bei kubwa, tunaumia sana."
-      # res = str.split(" ")
-      # $scope.word = res[0]
-      # desc = []
-
-      # for i,val of res
-      #   if i > 0
-      #     desc.push val
-
-      # $scope.desc = desc
-
   .controller 'TradersCreateCtrl', ($scope, Traders, FacilityForm,
                                         Map, flash, gettext, geolocation, modalSpinner) ->
     $scope.formTemplate = FacilityForm 'trd001'
@@ -253,11 +242,7 @@ angular.module('taarifaWaterpointsApp')
           for field, message of issue._issues
             flash.error = "#{field}: #{message}"
 
-  # .controller 'TradersCreateCtrl', ($scope, $http) ->
-  #   $http.post('traders', {
-  #     text: 'sdlakf;dsjfladksjf;ldsjfa;lsdkjfl;dsa'
-  #     }, {
-  #       params: {
-  #         id: '5'
-  #       }
-  #   });
+  .controller 'SubscribersCtrl', ($scope, $http) ->
+      $http.get('/api/subscribers', cache: true).success (data) ->
+          $scope.subscribers = data._items
+          console.log(data._items)
