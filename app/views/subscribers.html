@@ -1,0 +1,28 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{"Subscribers" | translate}} <!-- {{request.attribute.waterpoint_id}} -->
+      <!-- <small class="pull-right">{{"submitted on" | translate}} {{request._created}}</small></h3> -->
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th translate>PHONE</th>
+          <th translate>ISSUE</th>
+          <th translate>DESCRIPTION</th>
+          <th translate>SUBSCRIBED AT</th>
+          <th translate>STATUS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="s in subscribers">
+          <td>{{ s.issue_phone_number }}</td>
+          <td>{{ s.issue_keyword }}</td>
+          <td>{{ s.issue_description }}</td>
+          <td>{{ s._created }}</td>
+          <td>{{ s.issue_status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
