@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "grunt-angular-gettext": "^0.2.15",
-    "grunt-connect-proxy": "~0.1.10",
+    "grunt-connect-proxy": "^0.2.0",
     "grunt-karma": "~0.8.3",
     "karma": "~0.12.14",
     "karma-ng-html2js-preprocessor": "~0.1.0",
