@@ -53,19 +53,52 @@ trader_schema = {
     },
 }
 
+subscriber_schema = {
+    'issue_phone_number': {
+        'type': 'string',
+        'label': 'Phone Number',
+    },
+    'issue_code': {
+        'type': 'string',
+        'label': 'Issue Code',
+    },
+    'issue_keyword': {
+        'type': 'string',
+        'label': 'Keyword',
+        'allowed': ['Customs', 'TRA', 'ZRA', 'MRA', 'Immigration', 'Police', 'Bureau', 'Standards', 'Duty', 'Passport', 'BorderPass', 'Corruption', 'Harassment', 'Bribe'],
+    },
+    'issue_status': {
+        'type': 'string',
+        'label': 'Status',
+        'allowed': [0, 1],
+    },
+    'issue_description': {
+        'type': 'string',
+        'label': 'Description',
+    }
+}
+
 # Facility and resources go hand in hand. Following Open311 the facility
 # schema uses its fields attribute to define the schema resources must
 # have that are part of the facility.
 # FIXME: facility/service code duplicated here and in manage.py, should be in
 # settings.py
-facility_schema = {'facility_code': "trd001",
-                   'facility_name': "Cross-Border Traders",
+# facility_schema = {'facility_code': "trd001",
+#                    'facility_name': "Cross-Border Traders",
+#                    # this defines the schema of a resource within this facility
+#                    'fields': trader_schema,
+#                    'description': "Cross-Border Traders",
+#                    'keywords': ["Customs", "TRA", "ZRA", "MRA", "Immigration", "Police", "Bureau", "Standards", "Duty", "Passport", "BorderPass", "Corruption", "Harassment", "Bribe"],
+#                    'group': "trader",
+#                    'endpoint': "traders"}
+facility_schema = {'facility_code': "sub001",
+                   'facility_name': "Cross-Border Traders Subscribers",
                    # this defines the schema of a resource within this facility
-                   'fields': trader_schema,
-                   'description': "Cross-Border Traders",
+                   'fields': subscriber_schema,
+                   'description': "Cross-Border Traders Subscribers",
                    'keywords': ["Customs", "TRA", "ZRA", "MRA", "Immigration", "Police", "Bureau", "Standards", "Duty", "Passport", "BorderPass", "Corruption", "Harassment", "Bribe"],
-                   'group': "trader",
-                   'endpoint': "traders"}
+                   'group': "subscribers",
+                   'endpoint': "subscribers"}
 
 # Services and requests go hand in hand too. Here its the attributes field of a
 # service that defines what the schema of a request (report) should look like.
