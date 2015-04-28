@@ -35,6 +35,9 @@ app = angular
       .when '/subscribers',
         templateUrl: 'views/subscribers.html'
         controller: 'SubscribersCtrl'
+      .when '/test',
+        templateUrl: 'views/test.html'
+        controller: 'TestCtrl'
       .otherwise
         redirectTo: '/'
     $httpProvider.defaults.headers.patch =

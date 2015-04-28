@@ -246,3 +246,14 @@ angular.module('taarifaWaterpointsApp')
       $http.get('/api/subscribers', cache: true).success (data) ->
           $scope.subscribers = data._items
           console.log(data._items)
+
+  .controller 'TestCtrl', ($scope, $http) ->
+      console.log('Testing...')
+      # $http.get('http://52.10.110.204:15200/send?username=cbt_sendsms_user&password=cbt_sendsms_password&to=0992670640&keyword=Customs&description="took too long"&status=1&dlr-mask=31', cache: true)
+      url = 'https://52.10.110.204:15200/send?username=cbt_sendsms_user&password=cbt_sendsms_password&to=0992670640&text=test&dlr-mask=31'
+      $http.get(url, cache: true)
+        .success (data) ->
+          $scope.sms = data._items
+          console.log(data)
+        .error (e) ->
+          console.log('Error: '+e)
