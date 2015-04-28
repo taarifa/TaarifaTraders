@@ -51,7 +51,8 @@ str = raw_input("Please enter your issue: ")
 key,desc = str.split(' ', 1 );
 
 # HTTP Request from Airtel Zambia
-url = 'http://cbt.com/?number=255759112233&keyword='+key+'&description='+desc+'&status=1'
+url = 'http://52.10.110.204:15200/send?username=cbt_sendsms_user&password=cbt_sendsms_password&number=0992670640&keyword='+key+'&description='+desc+'&status=1&dlr-mask=31'
+# url = 'http://cbt.com/?number=255759112233&keyword='+key+'&description='+desc+'&status=1'
 par = urlparse.parse_qs(urlparse.urlparse(url).query)
 # print par['number'], par['keyword'], par['description']
 
