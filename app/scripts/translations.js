@@ -111,6 +111,7 @@ angular.module('taarifaWaterpointsApp').run(['gettextCatalog', function(gettextC
 	        "DESCRIPTION":"MAELEZO",
 	        "Subscribers":"Waliyosajili",
 	        "SUBSCRIBED AT":"MUDA WAKUSAJILI",
+	        "Keyword":"Neno",
     	},
     	'mw_TZ', {
     		"":"",
