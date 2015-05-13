@@ -1,1 +1,1 @@
-web: gunicorn taarifa_waterpoints:app
+web: gunicorn taarifa_traders:app

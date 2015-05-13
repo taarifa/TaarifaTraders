@@ -5,8 +5,8 @@ from pprint import pprint
 from flask.ext.script import Manager
 
 from taarifa_api import add_document, delete_documents, get_schema
-from taarifa_waterpoints import app
-from taarifa_waterpoints.schemas import facility_schema, service_schema
+from taarifa_traders import app
+from taarifa_traders.schemas import facility_schema, service_schema
 
 manager = Manager(app)
 
