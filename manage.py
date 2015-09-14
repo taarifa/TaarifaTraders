@@ -80,16 +80,20 @@ def upload_traders():
         'gid': 12,
         'objectid': 346,
         'issue_phone_number': '0782978899',
+	'issue_code': 'J8HB0Y',
         'issue_keyword': 'Customs',
         'issue_date': datetime.now(),
         'location': {'type': 'Point', 'coordinates': [35.786, -3.648]},
         'issue_status': 'Wanacharge bei kubwa sana. Naombeni wachukuliwe hatua!',
-        'issue_status_group': 'pending',
-        'issue_type': 'TB',
+        #'issue_status': 1,
+	#'issue_description': 'Wanacharge bei kubwa sana. Naombeni wachukuliwe hatua!',
+	'issue_status_group': 'pending',
+        'issue_type': 'Tarriff Barriers (TB)',
         'issue_agency': 'TANTRADE',
         'facility_code':'trd001',
     }
     check(add_document('traders', d), 201, False)
+    #check(add_document('subscribers', d), 201, False)
 
 
 @manager.command
