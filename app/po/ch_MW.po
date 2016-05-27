@@ -1,0 +1,102 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TaarifaTraders\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Taarifa <info@taarifa.org>\n"
+"Language: ch_MW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+/*****************************
+index.html
+*****************************/
+#: app/index.html
+msgid "Charter for Cross-Border Trade in Goods and Services"
+msgstr "Hayala kwa Cross-Border Trade mu katundu ndi Services"
+
+#: app/index.html
+msgid "Online platform for reported issues"
+msgstr "Online nsanja nkhani inati"
+
+#: app/index.html
+msgid "Issues Reported"
+msdstr "Madandaulo Umboni"
+
+#: app/index.html
+msgid "Home"
+msgstr "Kunyumba"
+
+#: app/index.html
+msgid "Subscribers"
+msgstr "Makasitomala"
+
+#: app/index.html
+msgid "Issues"
+msgstr "Madandaulo"
+
+#: app/index.html
+msgid "Add Issue"
+msgstr "Kuonjezera dandaulo"
+
+#: app/index.html
+msgid "Dashboard"
+msgstr "Bolodi"
+
+#: app/index.html
+msgid "REMARKS"
+msgstr "NDEMANGA"
+
+/*****************************
+subscribers.html
+*****************************/
+#: app/subscribers.html app/traders.html
+msgid "PHONE NUMBER"
+msgstr "NAMBALA YA LAMYA"
+
+#: app/subscribers.html
+msgid "SUBSCRIBED"
+msgstr "KOLEMBETSELA"
+
+#: app/subscribers.html app/traders.html
+msgid "DESCRIPTION"
+msgstr "MAONEKENDWE"
+
+#: app/subscribers.html
+msgid "SUBSCRIBED AT"
+msgstr "KOLEMBETSELA"
+
+#: app/subscribers.html app/traders.html
+msgid "STATUS"
+msgstr "MMENE ZILIRI"
+
+#: app/subscribers.html
+msgid "Search"
+msgstr "Kusaka"
+
+#: app/subscribers.html
+msgid "REGISTRATION"
+msgstr "KULEMBETSA"
+
+#: app/subscribers.html
+msgid "This user has been successfully registered with the system."
+msgstr "wosuta yakhala bwinobwino mayina ndi dongosolo."
+
+/*****************************
+traders.html
+*****************************/
+#: app/traders.html
+msgid "CODE"
+msgstr "NAMBALA"
+
+#: app/traders.html
+msgid "ISSUE"
+msgstr "DANDAULO"
+
+#: app/traders.html
+msgid "DATE"
+msgstr "TSIKU"

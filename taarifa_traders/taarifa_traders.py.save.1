@@ -1,0 +1,486 @@
+import json
+import mimetypes
+import re
+import time
+import uuid
+import json
+import hashlib
+import base64
+import hmac
+import requests
+from eve.render import send_response
+from flask import request, send_from_directory
+from werkzeug.contrib.cache import SimpleCache
+from datetime import datetime
+from pymongo import MongoClient
+cache = SimpleCache()
+
+from taarifa_api import api as app, main, add_document, delete_documents, get_schema
+
+
+def pre_get_issues(request, lookup):
+    """
+    Generate spatial query against waterpoint location from lat, lon,
+    minDistance and maxDistance request arguments. The default value
+    of maxDistance is 500m.
+    """
+    lat = request.args.get('lat', None, type=float)
+    lon = request.args.get('lon', None, type=float)
+    max_distance = request.args.get('maxDistance', 500, type=int)
+    min_distance = request.args.get('minDistance', None, type=int)
+
+    if lat and lon:
+        lat = lat if -90 <= lat <= 90 else None
+        lon = lon if -180 <= lon <= 180 else None
+    if max_distance:
+        max_distance = max_distance if max_distance >= 0 else None
+    if min_distance:
+        min_distance = min_distance if min_distance >= 0 else None
+
+    if lat and lon:
+        lookup['location'] = {
+            '$near': {
+                "$geometry": {
+                    "type": "Point",
+                    "coordinates": [lat, lon]
+                },
+            }
+        }
+        if max_distance:
+            lookup['location']['$near']['$maxDistance'] = max_distance
+        if min_distance:
+            lookup['location']['$near']['$minDistance'] = min_distance
+
+
+def post_issues_get_callback(request, payload):
+    """Strip all meta data but id from waterpoint payload if 'strip' is set to
+    a non-zero value in the query string."""
+    if request.args.get('strip', 1):
+        try:
+            d = json.loads(payload.data)
+            d['_items'] = [dict((k, v) for k, v in it.items()
+                                if k == '_id' or not k.startswith('_'))
+                           for it in d['_items']]
+            payload.data = json.dumps(d)
+        except (KeyError, ValueError):
+            # If JSON decoding fails or the object has no key _items
+            pass
+
+app.name = 'TaarifaWaterpoints'
+app.on_post_GET_issues += post_issues_get_callback
+app.on_pre_GET_issues += pre_get_issues
+
+# Override the maximum number of results on a single page
+# This is needed by the dashboard
+# FIXME: this should eventually be replaced by an incremental load
+# which is better for responsiveness
+app.config['PAGINATION_LIMIT'] = 70000
+
+############################### BEGIN SMS SOLUTION ###########################################
+
+sms_db_client=MongoClient()
+sms_db=sms_db_client.TaarifaAPI
+
+def check_response(response, success=201, print_status=True):
+    data, _, _, status = response
+    if status == success:
+        return True
+    return False
+
+def sms_send_text(mobile,text,network):
+    # Send text to given mobile number
+    timestamp=int(time.time())
+    client_id="104"
+    version="v1.0.0"
+    key="c726a2-805549b2dedbff"
+    nonce=uuid.uuid1()
+    secret="$2y$11$pH99fgOonnvbVFR.vsXqWOJhtWoouxzxIQr4UQ.mdOa3Id.knsMOu"
+    url="http://52.36.246.221/api/send"
+    method="PUT"
+  
+    mobile=str.strip(mobile)
+
+    if re.match(r'^[1-9]{1,1}[0-9]{8,8}$',mobile,re.M|re.I) is not None:
+	matches=re.match(r'^([1-9]{1,1}[0-9]{2,2})([0-9]{6,6})$',mobile,re.M|re.I)
+	prefix=None
+	if re.match(r'^AIRTELMW$',network,re.M|re.I) is not None:
+		prefix="265"
+	elif re.match(r'AIRTELZM',network,re.M|re.I) is not None:
+		prefix="260"
+	mobile=str(prefix)+"-"+str(matches.group(1))+"-"+str(matches.group(2))
+	
+    elif re.match(r'^0[1-9]{1,1}[0-9]{8,8}$',mobile,re.M|re.I) is not None:
+	matches=re.match(r'^0([1-9]{1,1}[0-9]{2,2})([0-9]{6,6})$',mobile,re.M|re.I)
+	prefix=None
+	if re.match(r'^AIRTELMW$',network,re.M|re.I) is not None:
+		prefix="265"
+	elif re.match(r'AIRTELZM',network,re.M|re.I) is not None:
+		prefix="260"
+	mobile=str(prefix)+"-"+str(matches.group(1))+"-"+str(matches.group(2))
+	
+    elif re.match(r'^[1-9]{1,1}[0-9]{11,11}$',mobile,re.M|re.I) is not None:
+	matches=re.match(r'^([1-9]{1,1}[0-9]{2,2})([1-9]{1,1}[0-9]{2,2})([0-9]{6,6})$',mobile,re.M|re.I)
+	mobile=str(matches.group(1))+"-"+str(matches.group(2))+"-"+str(matches.group(3))
+	
+    elif re.match(r'^\+[1-9]{1,1}[0-9]{11,11}$',mobile,re.M|re.I) is not None:
+	matches=re.match(r'^\+([1-9]{1,1}[0-9]{2,2})([1-9]{1,1}[0-9]{2,2})([0-9]{6,6})$',mobile,re.M|re.I)
+	mobile=str(matches.group(1))+"-"+str(matches.group(2))+"-"+str(matches.group(3))
+
+    sms={
+	"to":mobile,
+	"text":text,
+	"type":"B",
+	"network":str(network)
+    }
+
+    out={
+	"key":str(key),
+	"timestamp":str(timestamp),
+	"nonce":str(nonce),
+	"sms":sms
+    }
+
+    payload=json.dumps(out)
+
+    hash_string=str(method)+" "+str(url)+" "+str(client_id)+":"+str(version)+";"+str(key)+","+str(timestamp)+","+str(nonce)+";"+str(hashlib.sha1(payload).hexdigest())
+
+    signature=base64.b64encode(hmac.new(secret,hash_string,hashlib.sha1).hexdigest())
+
+    heads={
+	"Content-Type":"application/json",
+	"authentication":signature
+    }
+
+    try:	
+	req=requests.put(url+"/"+client_id,data=payload,headers=heads)
+	json_res=req.json()
+	
+	if json_res["success"] is False:
+		details="SMS has not been successfully sent with payload %s and response %s" %(payload,req.text)
+		print(details)
+	else:
+		details="SMS has been successfully sent with payload %s and response %s" % (payload,req.text)
+		print(details)
+		
+    except requests.exceptions.RequestException as e:
+	print("Send SMS Error: "+str(e))
+
+
+def sms_send_menu(mobile,network,expect_return=False):
+    # Send menu text to given mobile number
+    index_cursor=sms_db.facilities.find({'facility_code':'trd001'}).sort('_id',-1).limit(1)
+    menu=""
+    menu_count=1
+    line_break=chr(13)
+    if index_cursor.count(with_limit_and_skip=True)==1:
+     	for facility in index_cursor:
+        	keywords=facility['keywords']
+                for keyword in keywords:
+			menu=menu+str(menu_count)+". "+keyword)+line_break
+			menu_count=menu_count+1;
+    top="Report an issue by sending the following number of the issue, leave a space and write the message:"+line_break
+    bottom="EG: 4 Inappropriate behavior."+line_break
+    index=top+menu+bottom
+  
+    if expect_return is False:	
+	sms_send_text(mobile,index,network)		
+    else:
+	return index
+
+def sms_send_register(mobile,network,expect_return=False):
+    short_code="1040"
+    if re.match(r'^AIRTELMW$',network,re.M|re.I) is not None:
+	short_code="104"
+    info="Unregistered user. Please register by messaging REGISTER to %s." % short_code
+    
+    if expect_return is False:
+   	sms_send_text(mobile,info,network)
+    else:
+	return info
+
+def sms_register_user(mobile,is_registered,network,expect_return=False):
+    if is_registered==0:
+	# Do user registration
+        subscriber={
+        	'facility_code':'sub001',
+                'issue_code':'REGISTER',
+                'issue_date':datetime.now(),
+                'issue_phone_number':mobile,
+                'issue_status':'1',
+                'issue_status_group':'complete',
+                'issue_keyword':'REGISTRATION',
+                'issue_description':'This user has been successfully registered with the system.',
+                '_id':mobile
+    	}
+
+        if check_response(add_document('subscribers',subscriber)):
+                info="Thank you. You have successfully registered on our system with number %s." % mobile
+		
+		if expect_return is False:
+ 	 		sms_send_text(mobile,info,network)
+			sms_send_menu(mobile,network)
+                else:
+			sms_send_menu(mobile,network)
+			return '{"status":"SUCCESS","info":"%s"}' % info
+
+    	info="Sorry we have failed to register you on our system with number %s." % mobile
+	if expect_return is False:
+		sms_send_text(mobile,info,network)
+        else:
+		return '{"status":"ERROR","info":"%s"}' %info
+
+    info="You have already registered on the system with number %s." % mobile
+    if expect_return is False:
+	sms_send_text(mobile,info,network)
+    	sms_send_menu(mobile,network)
+    else:
+	sms_send_menu(mobile,network)
+	return '{"status":"IDLE","info":"%s"}' % info
+
+
+@app.route('/'+app.config['URL_PREFIX']+'/sms')
+def sms_flow():
+    if 'text' in request.args and 'mobile' in request.args and 'network' in request.args:
+    	text=request.args.get('text')
+    	mobile=request.args.get('mobile')
+	mobile=mobile.encode('utf8')
+	network=request.args.get('network')
+    	keyword=None
+
+	# Check if user is registered
+	is_registered_cursor=sms_db.resources.find({'_id':mobile,'facility_code':'sub001'})
+	is_registered=is_registered_cursor.count()
+	
+
+	# Get keyword from received text string
+	find_keyword=str.strip(text.encode('utf8'))	
+	
+	if re.match(r'^REGISTER$',find_keyword,re.M|re.I) is not None:
+		return sms_register_user(mobile,is_registered,network,True)
+
+	elif re.match(r'^MENU$',find_keyword,re.M|re.I) is not None:
+		if is_registered==1:
+			menu=sms_send_menu(mobile,network,True)
+			return '{"status":"SUCCESS","info":"%s"}' % menu
+		else:
+			prompt=sms_send_register(mobile,network,True)
+			return '{"status":"ERROR","info":"%s"}' % prompt
+
+	elif re.match(r'^IS([1-9]+[0-9]*)$',find_keyword,re.M|re.I) is not None:
+		if is_registered==1:
+			matches=re.match(r'^IS([1-9]+[0-9]*)$',find_keyword,re.M|re.I)
+			id_code=int(matches.group(1))
+			issue_cursor=sms_db.resources.find({'facility_code':'trd001','_id':id_code})
+			
+			issue_status_group="pending"		
+
+			if issue_cursor.count()>0:
+				for issue in issue_cursor:
+					issue_status_group=issue['issue_status_group']
+			
+			info="Sorry...we could not determine the status of your issue with code IS%s" % id_code
+			issue_status_group=str.strip(issue_status_group.encode('utf8'))
+			if  re.match(r'pending',issue_status_group,re.M|re.I) is not None and issue_cursor.count()>0:
+				info="Your issue with code IS%s is PENDING. Please continue to follow up to know the status." % id_code
+			elif re.match(r'complete',issue_status_group,re.M|re.I) is not None and issue_cursor.count()>0:
+				info="Your issue with code IS%s has been RESOLVED" % id_code
+		
+			# sms_send_text(mobile,info,network)
+			return '{"status":"IDLE","info":"%s"}' % info
+		else:
+			prompt=sms_send_register(mobile,network,True)
+			return '{"status":"ERROR","info":"%s"}' % prompt
+
+		
+	elif re.match(r'^([1-9]+[0-9]*) .*',find_keyword,re.M|re.I|re.S) is not None:
+		if is_registered==1:
+			matches=re.match(r'^([1-9]+[0-9]*) .*',find_keyword,re.M|re.I|re.S)
+			issue_keyword=matches.group(1)
+			index_cursor=sms_db.facilities.find({'facility_code':'trd001'}).sort('_id',-1).limit(1)
+			if index_cursor.count(with_limit_and_skip=True)==1:
+				for facility in index_cursor:
+					keywords=facility['keywords']
+					print("issue_keyword "+str(issue_keyword))
+					print("length of list "+str(len(keywords)))
+					if (len(keywords)-1)>=int(issue_keyword):
+						issue_keyword=keywords[int(issue_keyword)]
+					else:
+						info="Reported issue choice out of bound. Please choose issue index within appropriate bounds."
+						# sms_send_text(mobile,info,network)
+						sms_send_menu(mobile,network)
+						return '{"status":"ERROR","info":"%s"}' % info	
+
+			issue_code=1
+
+			latest_issue_code_cursor=sms_db.resources.find({'facility_code':'trd001'}).sort('_id',-1).limit(1)
+			latest_issue_code_count=latest_issue_code_cursor.count(with_limit_and_skip=True)
+			
+			if latest_issue_code_count>0:
+				for issue in latest_issue_code_cursor:
+					if issue_code<=issue['_id']:
+						issue_code=issue['_id']
+				
+				issue_code=issue_code+1
+			
+			id_code=issue_code
+			issue_code="IS"+str(issue_code)
+	    		report={
+    				'facility_code':'trd001',
+        			'issue_date':datetime.now(),
+				'issue_phone_number':mobile,
+     				'issue_status_group':'pending',
+				'issue_status':text,
+				'issue_code':issue_code,
+				'issue_keyword':issue_keyword,
+				'_id':id_code
+    			}
+    
+    			if check_response(add_document('traders',report)):
+				info="Thank you for sending us your report to follow up on your report send %s to 1040" % issue_code
+        			# sms_send_text(mobile,info,network)
+				return '{"status":"SUCCESS","info":"%s"}' % info
+    			
+			info="Sorry...the system could not process your report, please try this again another time."
+			# sms_send_text(mobile,info,network)
+			return "It failed!"
+		else:
+			prompt=sms_send_register(mobile,network,True)
+			return '{"status":"ERROR","info":"%s"}' % prompt
+	else:
+		if is_registered==1:
+			info="Sorry...we are unable to process your report please retry by following instructions appropriately."
+			# sms_send_text(mobile,info,network)
+			sms_send_menu(mobile,network)
+			return '{"status":"ERROR","info":"%s"}' % info
+    		else:
+			prompt=sms_send_register(mobile,network,True)
+			return '{"status":"ERROR","info":"%s"}' % prompt
+    else:
+	return '{"status":"ERROR","info":"Missing key parameters/arguments in HTTP request."}'
+
+############################################# END SMS SOLUTION ###################################
+
+
+@app.route('/' + app.config['URL_PREFIX'] + '/traders/requests')
+def trader_requests():
+    "Return the unique values for a given field in the waterpoints collection."
+    # FIXME: Direct call to the PyMongo driver, should be abstracted
+    reqs = app.data.driver.db['requests'].find(
+        {'status': 'open'},
+        ['attribute.waterpoint_id'])
+    return send_response('requests', (reqs.distinct('attribute.waterpoint_id'),))
+
+
+@app.route('/' + app.config['URL_PREFIX'] + '/traders/values/<field>')
+def traders_values(field):
+    "Return the unique values for a given field in the traders collection."
+    # FIXME: Direct call to the PyMongo driver, should be abstracted
+    resources = app.data.driver.db['resources']
+    if request.args:
+        resources = resources.find(dict(request.args.items()))
+    return send_response('resources', (sorted(resources.distinct(field)),))
+
+
+@app.route('/' + app.config['URL_PREFIX'] + '/traders/stats')
+def trader_stats():
+    "Return number of waterpoints grouped by district and status."
+    # FIXME: Direct call to the PyMongo driver, should be abstracted
+    resources = app.data.driver.db['resources']
+    return send_response('resources', (resources.group(
+        ['district', 'status_group'], dict(request.args.items()),
+        initial={'count': 0},
+        reduce="function(curr, result) {result.count++;}"),))
+
+
+@app.route('/' + app.config['URL_PREFIX'] + '/traders/status')
+def trader_status():
+    "Return number of waterpoints grouped by status."
+    # FIXME: Direct call to the PyMongo driver, should be abstracted
+    resources = app.data.driver.db['resources']
+    return send_response('resources', (resources.group(
+        ['status_group'], dict(request.args.items()), initial={'count': 0},
+        reduce="function(curr, result) {result.count++;}"),))
+
+
+@app.route('/' + app.config['URL_PREFIX'] + '/traders/count_by/<field>')
+def trader_count_by(field):
+    "Return number of waterpoints grouped a given field."
+    # FIXME: Direct call to the PyMongo driver, should be abstracted
+    resources = app.data.driver.db['resources']
+    return send_response('resources', (resources.group(
+        field.split(','), dict(request.args.items()), initial={'count': 0},
+        reduce="function(curr, result) {result.count++;}"),))
+
+
+@app.route('/' + app.config['URL_PREFIX'] + '/traders/stats_by/<field>')
+def trader_stats_by(field):
+    """Return number of waterpoints of a given status grouped by a certain
+    attribute."""
+    # FIXME: Direct call to the PyMongo driver, should be abstracted
+    resources = app.data.driver.db['resources']
+    return send_response('resources', (resources.aggregate([
+        {"$match": dict(request.args.items())},
+        {"$group": {"_id": {field: "$" + field,
+                            "status": "$status_group"},
+                    "statusCount": {"$sum": 1},
+                    "populationCount": {"$sum": "$pop_served"}}},
+        {"$group": {"_id": "$_id." + field,
+                    "waterpoints": {
+                        "$push": {
+                            "status": "$_id.status",
+                            "count": "$statusCount",
+                            "population": "$populationCount",
+                        },
+                    },
+                    "count": {"$sum": "$statusCount"}}},
+        {"$project": {"_id": 0,
+                      field: "$_id",
+                      "waterpoints": 1,
+                      "population": 1,
+                      "count": 1}},
+        {"$sort": {field: 1}}])['result'],))
+
+
+@app.route('/scripts/<path:filename>')
+def scripts(filename):
+    return send_from_directory(app.root_path + '/dist/scripts/', filename)
+
+
+@app.route('/styles/<path:filename>')
+def styles(filename):
+    return send_from_directory(app.root_path + '/dist/styles/', filename)
+
+
+@app.route('/images/<path:filename>')
+def images(filename):
+    return send_from_directory(app.root_path + '/dist/images/', filename)
+
+
+@app.route('/data/<path:filename>.topojson')
+def topojson(filename):
+    return send_from_directory(app.root_path + '/dist/data/', filename + '.topojson',
+                               mimetype='application/json')
+
+
+@app.route('/data/<path:filename>')
+def data(filename):
+    mimetype, _ = mimetypes.guess_type(filename)
+    return send_from_directory(app.root_path + '/dist/data/', filename, mimetype=mimetype)
+
+
+@app.route('/views/<path:filename>')
+def views(filename):
+    return send_from_directory(app.root_path + '/dist/views/', filename)
+
+
+@app.route("/")
+def index():
+    return send_from_directory(app.root_path + '/dist/', 'index.html')
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(app.root_path + '/dist/', 'favicon.ico')
+
+if __name__ == '__main__':
+    main()

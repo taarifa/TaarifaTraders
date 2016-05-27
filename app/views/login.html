@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-sm-4 col-sm-offset-4">
+  	<div style="text-align: center;">
+  	     <h4 translate>Charter for Cross-Border Trade in Goods and Services</h4>
+             <p>Online platform for reported issues</p>
+        </div>
+  	<div class="panel panel-default">
+  		<div class="panel-heading">
+	  		Login
+	  	</div>
+	  	<div class="panel-body">
+			<form name="loginForm" ng-submit="submitForm()" ng-controller="LoginCtrl">
+			    <div class="form-group">
+			        <label>Username</label>
+			        <input type="text" name="username" class="form-control" ng-model="user.username">
+			        <span ng-show="errorUserName">{{errorUserName}}</span>
+			    </div>
+			    <div class="form-group">
+			        <label>Password</label>
+			        <input type="password" name="password" class="form-control" ng-model="user.password">
+			        <span ng-show="errorPassword">{{errorPassword}}</span>
+			    </div>
+			    <button type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
+		    </form>
+		</div>
+	</div>
+  </div>
+</div>

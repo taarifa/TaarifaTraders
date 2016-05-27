@@ -1,28 +1,111 @@
+<div class="container">
+
+    <div class="header" ng-controller="NavCtrl">
+      <ul class="nav nav-pills pull-right">
+        <!--li><a ng-href="#/waterpoints/new">
+          <span class="glyphicon glyphicon-plus"></span>
+          Create waterpoint
+        </a></li-->
+        <!-- <li ng-class="{active: location.path() == '/'}"><a ng-href="#" translate>Home</a></li> -->
+        <li ng-class="{active: location.path() == '/'}"><a ng-href="#/traders" translate>Issues</a></li>
+        <li ng-class="{active: location.path() == '/subscribers'}"><a ng-href="#/subscribers" translate>{{"Subscribers" | translate}}</a></li>
+        <!-- <li ng-class="{active: location.path() == '/traders/new'}">
+          <a ng-href="#/traders/new"><span class="glyphicon glyphicon-plus"></span> {{"Add Issue" | translate}}</a></li> -->
+        <!-- <li ng-class="{active: location.path() == '/dashboard'}"><a ng-href="#/dashboard" translate>Dashboard</a></li> -->
+        <li ng-controller="LocaleCtrl">
+          <select class="form-control" ng-model="languages.current"
+            ng-options="key as value for (key, value) in languages.available">
+          </select>
+        </li>
+      </ul>
+      <h4 class="" translate>Charter for Cross-Border Trade in Goods and Services</h4>
+      <p>Online platform for reported issues</p>
+    </div>
+    <hr>
+
+    <div flash-alert="success" active-class="in alert" class="fade" duration="0">
+      <button type="button" class="close" ng-click="hide()">&times;</button>
+      <strong class="alert-heading">Success:</strong>
+      <span class="alert-message">{{flash.message}}</span>
+    </div>
+
+    <div flash-alert="error" active-class="in alert" class="fade" duration="0">
+      <button type="button" class="close" ng-click="hide()">&times;</button>
+      <strong class="alert-heading">Error:</strong>
+      <span class="alert-message">{{flash.message}}</span>
+    </div>
+
+    <div flash-alert="info" active-class="in alert" class="fade" duration="0">
+      <button type="button" class="close" ng-click="hide()">&times;</button>
+      <strong class="alert-heading">Info:</strong>
+      <span class="alert-message">{{flash.message}}</span>
+</div>
+
+
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">{{"Subscribers" | translate}} <!-- {{request.attribute.waterpoint_id}} -->
       <!-- <small class="pull-right">{{"submitted on" | translate}} {{request._created}}</small></h3> -->
   </div>
-  <div class="table-responsive">
-    <table class="table">
+  <div class="table-responsive" style="overflow: scroll;">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <label class="pull-right">{{ "Search:" | translate }}
+	     <input ng-model="search" placeholder="Quick search" translate>
+	</label>
+      </div>
+    </div>
+
+    <table class="table table-striped table-condensed table-hover">
       <thead>
         <tr>
-          <th translate>PHONE</th>
-          <th translate>ISSUE</th>
+          <th translate>PHONE NUMBER</th>
+          <th translate>SUBSCRIBED</th>
           <th translate>DESCRIPTION</th>
           <th translate>SUBSCRIBED AT</th>
           <th translate>STATUS</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="s in subscribers">
+        <tr ng-repeat="s in subscribers | filter: search">
           <td>{{ s.issue_phone_number }}</td>
           <td>{{ s.issue_keyword }}</td>
-          <td>{{ s.issue_description }}</td>
+          <td style="word-wrap: break-word;min-width: 300px;max-width: 300px;white-space: normal;">{{ s.issue_description }}</td>
           <td>{{ s._created }}</td>
           <td>{{ s.issue_status }}</td>
         </tr>
       </tbody>
     </table>
   </div>
+</div>
+
+<div class="footer">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h5>Supporters</h5>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12 col-lg-12">
+            <div class="col-md-2 col-lg-2"></div>
+            <div class="col-md-8 col-lg-8">
+              <div class="col-md-3 col-lg-3">
+                <img src="images/airtel.jpg" class="img-supporters" alt="Airtel" title="Airtel" />
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <img src="images/malawi.jpg" class="img-supporters" alt="Government of Malawi" title="Government of Malawi" />
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <img src="images/zambia.png" class="img-supporters" alt="Government of Zambia" title="Government of Zambia" />
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <img src="images/wbg.jpg" class="wb-supporters" alt="The World Bank Group" title="The World Bank Group" />
+              </div>
+            </div>
+            <div class="col-md-2 col-lg-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 </div>

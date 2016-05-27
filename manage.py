@@ -10,7 +10,6 @@ from taarifa_traders.schemas import facility_schema, service_schema
 
 manager = Manager(app)
 
-
 def check(response, success=201, print_status=True):
     data, _, _, status = response
     if status == success:
@@ -68,30 +67,6 @@ def delete_requests():
     """Delete all requests."""
     check(delete_documents('requests'), 200)
 
-
-# @manager.option("filename", help="CSV file to upload (required)")
-# @manager.option("--skip", type=int, default=0, help="Skip a number of records")
-# @manager.option("--limit", type=int, help="Only upload a number of records")
-@manager.command
-def upload_traders():
-    """Upload waterpoints from a CSV file."""
-    # Use sys.stdout.write so waterpoints can be printed nicely and succinctly
-    d = {
-        'gid': 12,
-        'objectid': 346,
-        'issue_phone_number': '0782978899',
-        'issue_keyword': 'Customs',
-        'issue_date': datetime.now(),
-        'location': {'type': 'Point', 'coordinates': [35.786, -3.648]},
-        'issue_status': 'Wanacharge bei kubwa sana. Naombeni wachukuliwe hatua!',
-        'issue_status_group': 'pending',
-        'issue_type': 'TB',
-        'issue_agency': 'TANTRADE',
-        'facility_code':'trd001',
-    }
-    check(add_document('traders', d), 201, False)
-
-
 @manager.command
 def ensure_indexes():
     """Make sure all important database indexes are created."""
@@ -108,7 +83,6 @@ def create_request(wp, status):
          "attribute": {"waterpoint_id": wp,
                        "status": status}}
     check(add_document("requests", r))
-
 
 @manager.command
 def delete_waterpoints():

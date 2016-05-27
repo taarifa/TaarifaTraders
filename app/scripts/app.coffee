@@ -11,30 +11,36 @@ app = angular
     'angular-flash.service',
     'angular-flash.flash-alert-directive',
     'geolocation',
-    'gettext'
+    'gettext',
   ])
 
   .config ($routeProvider, $httpProvider, flashProvider) ->
     $routeProvider
+      #.when '/',
+       # templateUrl: 'views/main.html'
+       # controller: 'MainCtrl'
+       # reloadOnSearch: false
+     #.when '/waterpoints/edit/:id',
+       # templateUrl: 'views/edit.html'
+       # controller: 'WaterpointEditCtrl'
+     #.when '/traders/new',
+       # templateUrl: 'views/edit.html'
+       # controller: 'TradersCreateCtrl'
+     #.when '/dashboard',
+       # templateUrl: 'views/dashboard.html'
+       # controller: 'DashboardCtrl'
       .when '/',
-        templateUrl: 'views/main.html'
-        controller: 'MainCtrl'
-        reloadOnSearch: false
-      .when '/waterpoints/edit/:id',
-        templateUrl: 'views/edit.html'
-        controller: 'WaterpointEditCtrl'
-      .when '/traders/new',
-        templateUrl: 'views/edit.html'
-        controller: 'TradersCreateCtrl'
-      .when '/dashboard',
-        templateUrl: 'views/dashboard.html'
-        controller: 'DashboardCtrl'
-      .when '/traders',
-        templateUrl: 'views/traders.html'
-        controller: 'TradersCtrl'
+        templateUrl: 'views/login.html'
+        controller: 'LoginCtrl'
       .when '/subscribers',
         templateUrl: 'views/subscribers.html'
         controller: 'SubscribersCtrl'
+      .when '/traders',
+        templateUrl: 'views/traders.html'
+        controller: 'TradersCtrl'
+      .when '/test',
+        templateUrl: 'views/test.html'
+        controller: 'TestCtrl'
       .otherwise
         redirectTo: '/'
     $httpProvider.defaults.headers.patch =

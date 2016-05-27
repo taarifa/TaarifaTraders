@@ -20,6 +20,7 @@ angular.module('taarifaWaterpointsApp')
       available:
         en: "English"
         sw_TZ: "Swahili"
+        ch_MW: "Chichewa"
 
     $scope.$watch "languages.current", (lang) ->
       if not lang then return
@@ -204,6 +205,10 @@ angular.module('taarifaWaterpointsApp')
 
   .controller 'TradersCtrl', ($scope, $http) ->
       $http.get('/api/traders', cache: true).success (data) ->
+          $scope.sortType     = 'issue_code' # set the default sort type
+          $scope.sortReverse  = false  # set the default sort order
+          $scope.searchText   = ''     # set the default search/filter term
+          
           $scope.traders = data._items
           console.log(data._items)
 
@@ -246,3 +251,17 @@ angular.module('taarifaWaterpointsApp')
       $http.get('/api/subscribers', cache: true).success (data) ->
           $scope.subscribers = data._items
           console.log(data._items)
+
+  .controller 'LoginCtrl', ($scope, $http) ->
+      $scope.user = {}
+      $scope.submitForm = () ->
+        $http.post('/login', {user:$scope.user, username:$scope.username, email:$scope.email}, cache: false).success (data) ->
+          console.log data
+
+  .controller 'TestCtrl', ($scope, $http) ->
+      $http.get('/api/traders', cache: true)
+        .success (data) ->
+          $scope.sms = data._items
+          console.log(data._items)
+        .error (e) ->
+          console.log(e)

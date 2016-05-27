@@ -25,7 +25,8 @@
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 1000px;
+     width: 100% !important;
+     max-width: 100% !important;
   }
 }
 .container-narrow > hr {
@@ -257,7 +258,6 @@ div.region-info {
   width: 100%;
   height: 100%;
 }
-
 .legend {
   padding: 6px 8px;
   font: 14px/16px Arial, Helvetica, sans-serif;
@@ -307,8 +307,23 @@ background: url('../images/Tanzania.png') no-repeat left center;
 margin-left: 10px;
 padding-left: 80px;
 }
-.btn{
+/*.btn{
   float: right;
   position: relative;
   margin-top: -20px;
+}*/
+
+.img-supporters {width: 100px;height:auto;}
+.wb-supporters {width: 220px;height: auto;}
+
+.modal-body .form-horizontal .col-sm-2,
+.modal-body .form-horizontal .col-sm-10 {
+    width: 100%
+}
+
+.modal-body .form-horizontal .control-label {
+    text-align: left;
+}
+.modal-body .form-horizontal .col-sm-offset-2 {
+    margin-left: 15px;
 }

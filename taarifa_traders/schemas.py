@@ -1,56 +1,101 @@
+login_schema = {
+    'objectid': {
+	'type':'integer',
+    },
+    'username': {
+	'type':'string',
+	'required': True,
+        'unique': True,
+    },
+    'password': {
+        'type':'string',
+	'required': True,
+    }
+}
+
 # trader_schema stores issues reported by the traders
 # FIXME: change name to issue_schema
 trader_schema = {
     'gid': {
         'type': 'integer',
-        'label': 'GID',
+        #'label': 'GID',
         # FIXME: not really unique...
         # 'unique': True
     },
     'objectid': {
         'type': 'integer',
-        'label': 'Object ID',
+        #'label': 'Object ID',
         # FIXME: not really unique...
         # 'unique': True
     },
     'issue_phone_number': {
         'type': 'string',
-        'label': 'Phone Number',
+        #'label': 'Phone Number',
     },
     'issue_code': {
         'type': 'string',
-        'label': 'Issue Code',
+        #'label': 'Issue Code',
     },
     'issue_keyword': {
         'type': 'string',
-        'label': 'Keyword',
+        #'label': 'Keyword',
         'allowed': ['Customs', 'TRA', 'ZRA', 'MRA', 'Immigration', 'Police', 'Bureau', 'Standards', 'Duty', 'Passport', 'BorderPass', 'Corruption', 'Harassment', 'Bribe'],
     },
     'issue_type': {
         'type': 'string',
-        'label': 'Issue Type',
+        #'label': 'Issue Type',
         'allowed': ['Non-Tarriff Barriers (NTB)', 'Tarriff Barriers (TB)'],
     },
     'issue_agency': {
         'type': 'string',
-        'label': 'Agency',
+        #'label': 'Agency',
     },
     'issue_date': {
         'type': 'datetime',
-        'label': 'Date recorded',
+        #'label': 'Date recorded',
     },
     'location': {
         'type': 'point',
     },
     'issue_status': {
         'type': 'string',
-        'label': 'Status detail',
+        #'label': 'Status detail',
     },
     'issue_status_group': {
         'type': 'string',
-        'label': 'Status group',
+        #'label': 'Status group',
         'allowed': ['complete', 'pending'],
     },
+    'issue_remarks': {
+        'type': 'string',
+        #'label': 'Remarks',
+        #'allowed': ['complete', 'pending'],
+    },
+}
+
+subscriber_schema = {
+    'issue_phone_number': {
+        'type': 'string',
+        #'label': 'Phone Number',
+    },
+    'issue_code': {
+        'type': 'string',
+        #'label': 'Issue Code',
+    },
+    'issue_keyword': {
+        'type': 'string',
+        #'label': 'Keyword',
+        'allowed': ['Customs', 'TRA', 'ZRA', 'MRA', 'Immigration', 'Police', 'Bureau', 'Standards', 'Duty', 'Passport', 'BorderPass', 'Corruption', 'Harassment', 'Bribe'],
+    },
+    'issue_status': {
+        'type': 'integer',
+        #'label': 'Status',
+        'allowed': ['0', '1'],
+    },
+    'issue_description': {
+        'type': 'string',
+        #'label': 'Description',
+    }
 }
 
 # Facility and resources go hand in hand. Following Open311 the facility
@@ -67,6 +112,20 @@ facility_schema = {'facility_code': "trd001",
                    'group': "trader",
                    'endpoint': "traders"}
 
+facility_schema = {'facility_code': "sub001",
+                   'facility_name': "Cross-Border Traders Subscribers",
+                   # this defines the schema of a resource within this facility
+                   'fields': subscriber_schema,
+                   'description': "Cross-Border Traders Subscribers",
+                   'keywords': ["Customs", "TRA", "ZRA", "MRA", "Immigration", "Police", "Bureau", "Standards", "Duty", "Passport", "BorderPass", "Corruption", "Harassment", "Bribe"],
+                   'group': "subscribers",
+                   'endpoint': "subscribers"}
+facility_schema = {'facility_code': "login",
+		   'facility_name': "Login",
+		   'fields': login_schema,
+		   'description': "",
+		   'group': "login",
+		   'endpoint': "login"}
 # Services and requests go hand in hand too. Here its the attributes field of a
 # service that defines what the schema of a request (report) should look like.
 service_schema = {
