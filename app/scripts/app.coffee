@@ -16,19 +16,6 @@ app = angular
 
   .config ($routeProvider, $httpProvider, flashProvider) ->
     $routeProvider
-      #.when '/',
-       # templateUrl: 'views/main.html'
-       # controller: 'MainCtrl'
-       # reloadOnSearch: false
-     #.when '/waterpoints/edit/:id',
-       # templateUrl: 'views/edit.html'
-       # controller: 'WaterpointEditCtrl'
-     #.when '/traders/new',
-       # templateUrl: 'views/edit.html'
-       # controller: 'TradersCreateCtrl'
-     #.when '/dashboard',
-       # templateUrl: 'views/dashboard.html'
-       # controller: 'DashboardCtrl'
       .when '/',
         templateUrl: 'views/login.html'
         controller: 'LoginCtrl'
@@ -41,6 +28,12 @@ app = angular
       .when '/test',
         templateUrl: 'views/test.html'
         controller: 'TestCtrl'
+      .when '/traders_sh',
+        templateUrl: 'views/traders_stakeholders.html'
+        controller: 'TradersCtrl'
+      .when '/traders_p',
+        templateUrl: 'views/traders_public.html'
+        controller: 'TradersCtrl'
       .otherwise
         redirectTo: '/'
     $httpProvider.defaults.headers.patch =

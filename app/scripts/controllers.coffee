@@ -204,6 +204,9 @@ angular.module('taarifaWaterpointsApp')
             flash.error = "#{field}: #{message}"
 
   .controller 'TradersCtrl', ($scope, $http) ->
+      $scope.remarks = 'test'
+      $scope.test = (id) ->
+        alert 'Issue ID: '+id+'\nRemarks: '+$scope.remarks
       $http.get('/api/traders', cache: true).success (data) ->
           $scope.sortType     = 'issue_code' # set the default sort type
           $scope.sortReverse  = false  # set the default sort order
@@ -211,7 +214,7 @@ angular.module('taarifaWaterpointsApp')
           
           $scope.traders = data._items
           console.log(data._items)
-
+	 
   .controller 'TradersCreateCtrl', ($scope, Traders, FacilityForm,
                                         Map, flash, gettext, geolocation, modalSpinner) ->
     $scope.formTemplate = FacilityForm 'trd001'
@@ -252,11 +255,26 @@ angular.module('taarifaWaterpointsApp')
           $scope.subscribers = data._items
           console.log(data._items)
 
-  .controller 'LoginCtrl', ($scope, $http) ->
+  .controller 'LoginCtrl', ($scope, flash, gettext) ->
       $scope.user = {}
       $scope.submitForm = () ->
-        $http.post('/login', {user:$scope.user, username:$scope.username, email:$scope.email}, cache: false).success (data) ->
-          console.log data
+        if $scope.user.privilege == 'sa'
+          if $scope.user.username == 'mejn' and $scope.user.password == 'mejn1234' or $scope.user.username == 'cbta' and $scope.user.password == 'cbta4321' or $scope.user.username == 'nabw' and $scope.user.password == 'nabw2016'
+            console.log $scope.user.privilege
+            window.location.href = '#/traders'
+            alert('Welcome '+$scope.user.username+'\nYou have logged in as a Traders Association/CSO')
+          else
+            alert('Login failed.\nInvalid Username or Password. Please Try Again!!!')
+        else if $scope.user.privilege == 'sh'
+          if $scope.user.username == 'mra' and $scope.user.password == 'mra0987' or $scope.user.username == 'immigration' and $scope.user.password == 'immigration2016' or $scope.user.username == 'ministryoftrade' and $scope.user.password == 'ministryoftrade5678'
+            console.log $scope.user.privilege
+            window.location.href = '#/traders_sh'
+            alert('Welcome '+$scope.user.username+'\nYou have logged in as a Border Agency/Government')
+          else
+            alert('Login failed.\nInvalid Username or Password. Please Try Again!!!')
+        else
+          alert('Login failed.\nPlease select privilege and enter your username and password!')
+          #flash.error = gettext('Login failed. Please select privilege and enter your username and password!')
 
   .controller 'TestCtrl', ($scope, $http) ->
       $http.get('/api/traders', cache: true)
@@ -265,3 +283,27 @@ angular.module('taarifaWaterpointsApp')
           console.log(data._items)
         .error (e) ->
           console.log(e)
+
+  .controller 'TradersStakeholdersCtrl', ($scope, $http) ->
+      $scope.remarks = ' '
+      $scope.test = (id) ->
+        alert 'Issue ID: '+id+'\nRemarks: '+$scope.remarks
+      $http.get('/api/traders', cache: true).success (data) ->
+          $scope.sortType     = 'issue_code' # set the default sort type
+          $scope.sortReverse  = false  # set the default sort order
+          $scope.searchText   = ''     # set the default search/filter term
+
+          $scope.traders = data._items
+          console.log(data._items)
+
+  .controller 'TradersPublicCtrl', ($scope, $http) ->
+      $scope.remarks = ' '
+      $scope.test = (id) ->
+        alert 'Issue ID: '+id+'\nRemarks: '+$scope.remarks
+      $http.get('/api/traders', cache: true).success (data) ->
+          $scope.sortType     = 'issue_code' # set the default sort type
+          $scope.sortReverse  = false  # set the default sort order
+          $scope.searchText   = ''     # set the default search/filter term
+
+          $scope.traders = data._items
+          console.log(data._items)

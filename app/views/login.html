@@ -9,7 +9,14 @@
 	  		Login
 	  	</div>
 	  	<div class="panel-body">
-			<form name="loginForm" ng-submit="submitForm()" ng-controller="LoginCtrl">
+			<form name="loginForm">
+			    <div class="form-group">
+				<label>Login As:</label>
+			    	<select placeholder="select privilege..." class="form-control" name="privilege" ng-model="user.privilege">
+      				     <option value="sa">Traders Association/CSO</option>
+      				     <option value="sh">Border Agency/Government</option>
+    				</select>
+			    </div>
 			    <div class="form-group">
 			        <label>Username</label>
 			        <input type="text" name="username" class="form-control" ng-model="user.username">
@@ -20,7 +27,7 @@
 			        <input type="password" name="password" class="form-control" ng-model="user.password">
 			        <span ng-show="errorPassword">{{errorPassword}}</span>
 			    </div>
-			    <button type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
+			    <button type="submit" class="btn btn-primary btn-block btn-lg" ng-click="submitForm()">Login</button>
 		    </form>
 		</div>
 	</div>
