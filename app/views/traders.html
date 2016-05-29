@@ -9,6 +9,7 @@
         <!-- <li ng-class="{active: location.path() == '/'}"><a ng-href="#" translate>Home</a></li> -->
         <li ng-class="{active: location.path() == '/'}"><a ng-href="#/traders" translate>Issues</a></li>
         <li ng-class="{active: location.path() == '/subscribers'}"><a ng-href="#/subscribers" translate>{{"Subscribers" | translate}}</a></li>
+	<li ng-class="{active: location.path() == '/login'}"><a ng-href="#/login" translate>{{"Logout" | translate}}</a></li>
         <!-- <li ng-class="{active: location.path() == '/traders/new'}">
           <a ng-href="#/traders/new"><span class="glyphicon glyphicon-plus"></span> {{"Add Issue" | translate}}</a></li> -->
         <!-- <li ng-class="{active: location.path() == '/dashboard'}"><a ng-href="#/dashboard" translate>Dashboard</a></li> -->
@@ -50,13 +51,14 @@
   <div class="table-responsive" style="overflow: scroll !important;">
     <div class="panel panel-default">
       <div class="panel-body">
-        <!-- <div class="alert alert-info">
-          <p>Sort Type: {{ sortType }}</p>
+        <div class="alert alert-info pull-left">
+	  <p>1. Customs 2. TRA 3. ZRA 4. MRA 5. Immigration 6. Police 7. Bureau 8. Standards 9. Duty 10. Passport 11. BorderPass 12. Corruption 13. Harassment 14. Bribe</p>
+          <!--<p>Sort Type: {{ sortType }}</p>
           <p>Sort Reverse: {{ sortReverse }}</p>
-          <p>Search Query: {{ searchText }}</p>
-        </div> -->
+          <p>Search Query: {{ searchText }}</p>-->
+        </div>
 
-          <label class="pull-right">{{"Search:" | translate}} <input ng-model="searchText.$" placeholder="Quick search" class=""></label>
+          <label class="pull-right">{{"Search" | translate}}: <input ng-model="searchText.$" placeholder="Quick search" class=""></label>
       </div>
     </div>
 
@@ -108,7 +110,8 @@
               <span ng-show="sortType == 'issue_status_group' && sortReverse" class="fa fa-caret-up"></span>
             </a>
           </th>
-          <th translate>{{"REMARKS" | translate}}</th>
+          <th translate><a>{{"REMARKS" | translate}} 1</a></th>
+	  <th translate><a>{{"REMARKS" | translate}} 2</a></th>
         </tr>
         <tr>
           <td><input ng-model="searchText.issue_code" placeholder="search code" class="form-control"></td>
@@ -129,12 +132,20 @@
           <!-- <td>{{ trader.location.coordinates }}</td> -->
           <!-- <td>{{ trader.issue_agency }}</td> -->
           <td>{{ trader._created | date }}</td>
-          <td>{{ trader.issue_status_group | translate }}</td>
           <td>
-	    <input type="text" class="form-control" ng-model="remarks" placeholder="add remarks"/>
+	  <select class="form-control" name="statusgp" ng-model="status">
+		<option value="pending">{{ trader.issue_status_group | translate }}</option>
+		<option value="resolved">resolved</option>
+	  </select>
+	  <button class="btn btn-xs btn-primary" ng-click="changeStatus()">Change</button>
+	  </td>
+          <td>
+	    <input type="text" class="form-control" ng-model="remarks1" placeholder="add remarks"/>
 	    <button class="btn btn-xs btn-warning" ng-click="test(trader._id)">Comment</button>
-            <!-- Trigger the modal with a button -->
-	    <!--<button type="button" class="btn btn-info btn-sm" onclick="postComment('fdasfdsfdsafds');">Comment</button>-->
+          </td>
+	  <td>
+            <input type="text" class="form-control" ng-model="remarks2" placeholder="add remarks"/>
+            <button class="btn btn-xs btn-warning" ng-click="test(trader._id)">Comment</button>
           </td>
         </tr>
       </tbody>

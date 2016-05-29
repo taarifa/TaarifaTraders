@@ -2,6 +2,7 @@
 
     <div class="header" ng-controller="NavCtrl">
       <ul class="nav nav-pills pull-right">
+	<li><a ng-href="#/login" translate>Login</a></li>
         <!--li><a ng-href="#/waterpoints/new">
           <span class="glyphicon glyphicon-plus"></span>
           Create waterpoint
@@ -50,11 +51,12 @@
   <div class="table-responsive" style="overflow: scroll !important;">
     <div class="panel panel-default">
       <div class="panel-body">
-        <!-- <div class="alert alert-info">
-          <p>Sort Type: {{ sortType }}</p>
+        <div class="alert alert-info pull-left">
+	  <p>1. Customs 2. TRA 3. ZRA 4. MRA 5. Immigration 6. Police 7. Bureau 8. Standards 9. Duty 10. Passport 11. BorderPass 12. Corruption 13. Harassment 14. Bribe</p>
+          <!--<p>Sort Type: {{ sortType }}</p>
           <p>Sort Reverse: {{ sortReverse }}</p>
-          <p>Search Query: {{ searchText }}</p>
-        </div> -->
+          <p>Search Query: {{ searchText }}</p>-->
+        </div>
 
           <label class="pull-right">{{"Search:" | translate}} <input ng-model="searchText.$" placeholder="Quick search" class=""></label>
       </div>
@@ -108,7 +110,8 @@
               <span ng-show="sortType == 'issue_status_group' && sortReverse" class="fa fa-caret-up"></span>
             </a>
           </th>
-          <!--<th translate>{{"REMARKS" | translate}}</th>-->
+          <th translate><a>{{"REMARKS" | translate}} 1</a></th>
+	  <th translate><a>{{"REMARKS" | translate}} 2</a></th>
         </tr>
         <tr>
           <td><input ng-model="searchText.issue_code" placeholder="search code" class="form-control"></td>
@@ -130,10 +133,8 @@
           <!-- <td>{{ trader.issue_agency }}</td> -->
           <td>{{ trader._created | date }}</td>
           <td>{{ trader.issue_status_group | translate }}</td>
-          <!--<td>
-	    <input type="text" class="form-control" ng-model="remarks" placeholder="add remarks"/>
-	    <button class="btn btn-xs btn-warning" ng-click="test(trader._id)">Comment</button>
-          </td>-->
+          <td><span style="font-style:italic;color:#BBB;">{{ "No remarks" | translate}}</span></td>
+	  <td><span style="font-style:italic;color:#BBB;">{{ "No remarks" | translate}}</span></td>
         </tr>
       </tbody>
     </table>

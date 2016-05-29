@@ -17,8 +17,8 @@ app = angular
   .config ($routeProvider, $httpProvider, flashProvider) ->
     $routeProvider
       .when '/',
-        templateUrl: 'views/login.html'
-        controller: 'LoginCtrl'
+        templateUrl: 'views/traders_public.html'
+        controller: 'TradersCtrl'
       .when '/subscribers',
         templateUrl: 'views/subscribers.html'
         controller: 'SubscribersCtrl'
@@ -31,9 +31,9 @@ app = angular
       .when '/traders_sh',
         templateUrl: 'views/traders_stakeholders.html'
         controller: 'TradersCtrl'
-      .when '/traders_p',
-        templateUrl: 'views/traders_public.html'
-        controller: 'TradersCtrl'
+      .when '/login',
+        templateUrl: 'views/login.html'
+        controller: 'LoginCtrl'
       .otherwise
         redirectTo: '/'
     $httpProvider.defaults.headers.patch =

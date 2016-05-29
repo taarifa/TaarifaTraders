@@ -205,8 +205,11 @@ angular.module('taarifaWaterpointsApp')
 
   .controller 'TradersCtrl', ($scope, $http) ->
       $scope.remarks = 'test'
+      $scope.status = 'pending'
+      $scope.changeStatus = () ->
+        confirm 'Are you sure you want to change the status of the issue?'
       $scope.test = (id) ->
-        alert 'Issue ID: '+id+'\nRemarks: '+$scope.remarks
+        confirm 'Do you want to submit your comments?'
       $http.get('/api/traders', cache: true).success (data) ->
           $scope.sortType     = 'issue_code' # set the default sort type
           $scope.sortReverse  = false  # set the default sort order
@@ -287,7 +290,7 @@ angular.module('taarifaWaterpointsApp')
   .controller 'TradersStakeholdersCtrl', ($scope, $http) ->
       $scope.remarks = ' '
       $scope.test = (id) ->
-        alert 'Issue ID: '+id+'\nRemarks: '+$scope.remarks
+        confirm 'Do you want to submit your comments?'
       $http.get('/api/traders', cache: true).success (data) ->
           $scope.sortType     = 'issue_code' # set the default sort type
           $scope.sortReverse  = false  # set the default sort order
@@ -297,9 +300,6 @@ angular.module('taarifaWaterpointsApp')
           console.log(data._items)
 
   .controller 'TradersPublicCtrl', ($scope, $http) ->
-      $scope.remarks = ' '
-      $scope.test = (id) ->
-        alert 'Issue ID: '+id+'\nRemarks: '+$scope.remarks
       $http.get('/api/traders', cache: true).success (data) ->
           $scope.sortType     = 'issue_code' # set the default sort type
           $scope.sortReverse  = false  # set the default sort order
